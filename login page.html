@@ -4,110 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Accommodation</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #ff0000 30%, #000000 70%);
-            background-size: 400% 400%;
-            animation: wave 6s infinite alternate;
-            position: relative;
-        }
-
-        @keyframes wave {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-
-        /* MAKZ Text Styling */
-        #makz {
-            font-family: 'Sixtyfour', sans-serif;
-            color: red;
-            font-size: 160px; /* Increased font size */
-            text-align: center;
-            position: absolute; /* Position it relative to the body */
-            top: 50px; /* Move MAKZ text higher */
-            left: 50%;
-            transform: translateX(-50%); /* Center MAKZ horizontally */
-            margin: 0;
-        }
-
-        .container {
-            background: #000000;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #loginPage {
-            background: black;
-            width: 320px;
-            height: 320px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            padding-left: 5px; /* Reduced padding-left to move text boxes more to the left */
-            border-radius: 0;
-        }
-
-        #loginPage h2 {
-            font-family: 'Sixtyfour', sans-serif;
-            color: red;
-            font-size: 40px; /* Increased font size */
-            text-align: left; /* Align text to the left */
-            margin-bottom: 20px; /* Space between title and input fields */
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        input, select, button {
-            display: block;
-            width: calc(100% - 24px);
-            margin: 12px 0;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid white; /* White border */
-            border-radius: 6px;
-            text-align: left; /* Align text inside text boxes to the left */
-            background: black;
-            color: white;
-        }
-
-        /* Style for the Next button */
-        button {
-            background: #fa1818; /* Reddish-black color */
-            color: #c0c0c0;
-            cursor: pointer;
-            transition: background 0.3s;
-            width: auto; /* Allow button to adjust to content size */
-            padding: 10px 120px; /* Bigger padding for a larger button */
-            margin: 20px auto 0; /* Center the button and add margin-top */
-            display: block;
-        }
-
-        /* Hover effect for the Next button */
-        button:hover {
-            background: #b22222; /* Lighter red on hover */
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="styles1.css">
 </head>
 <body>
     <!-- MAKZ Text -->
@@ -122,41 +21,15 @@
             <button onclick="nextPage()">Next</button>
         </div>
 
-        <!-- Preferences Form -->
-        <div class="container" id="preferencesPage" style="display: none;">
-            <h2>Accommodation Preferences</h2>
-            <label>Room Type:</label>
-            <select id="roomType">
-                <option value="AC">AC</option>
-                <option value="Non-AC">Non-AC</option>
-            </select>
-            <label>Number of Rooms:</label>
-            <input type="number" id="numRooms" min="1" max="10" required>
-            <button onclick="submitPreferences()">Submit</button>
-        </div>
-    </div>
-
-    <script>
+ <script>
         function nextPage() {
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
 
             if (name && email) {
-                document.getElementById("loginPage").style.display = "none";
-                document.getElementById("preferencesPage").style.display = "block";
+                window.location.href = "preferences.html";
             } else {
                 alert("Please enter your name and email.");
-            }
-        }
-
-        function submitPreferences() {
-            let roomType = document.getElementById("roomType").value;
-            let numRooms = document.getElementById("numRooms").value;
-
-            if (numRooms) {
-                alert(`Preferences Saved!\nRoom Type: ${roomType}\nNumber of Rooms: ${numRooms}`);
-            } else {
-                alert("Please select the number of rooms.");
             }
         }
     </script>

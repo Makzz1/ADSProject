@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #e0f7fa, #569abb);
+        }
+
+        .container {
+            background-color: #000;
+            padding: 25px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #5faad9;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-bottom: 2px solid #5faad9;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            background-color: #5faad9;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #3c8bb7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form>
+            <label for="college-address">What is your college address?</label>
+            <input type="text" id="college-address" placeholder="Enter your college address" required>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html>

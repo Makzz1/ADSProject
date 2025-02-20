@@ -2,8 +2,9 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="ADS hostel accomadation" uuid="4d9ba846-0eb5-4172-ae56-d15fab610aa5">
-      <driver-ref>postgresql</driver-ref>
+      <driver-ref>postgresql.cloud_sql</driver-ref>
       <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://aws-0-ap-south-1.pooler.supabase.com:6543/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

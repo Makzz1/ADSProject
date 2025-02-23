@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import psycopg2
 import minheap
-import math
-import requests
+
 
 app = Flask(__name__)
 CORS(app)

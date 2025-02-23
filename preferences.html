@@ -93,11 +93,79 @@ body {
 </head>
 <body>
     <script>
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        
-        var collegeAddress = document.getElementById('college-address').value;
-        
+        var colleges = [
+            { name: "Anna University", altNames: ["Anna"], location: [13.013147772308349, 80.23639803271772] },
+            { name: "University of Madras", altNames: ["Madras University"], location: [13.0662, 80.2830] },
+            { name: "Indian Institute Of Technology Madras", altNames: ["IIT Madras", "IIT"], location: [12.9915, 80.2337] },
+            { name: "Loyola College", altNames: ["Loyola","loyola"], location: [13.078763628279285, 80.23465131879477] },
+            { name: "Sathyabama Institute of Science and Technology", altNames: ["Sathyabama"], location: [12.873334497910228, 80.22612036924713] },
+            { name: "Madras Christian College", altNames: ["MCC"], location: [12.921271500323286, 80.12200795582098] },
+            { name: "SRM Institute of Science and Technology", altNames: ["SRM University", "SRM"], location: [13.046071081069655, 80.17605657619077] },
+            { name: "Stella Maris College", altNames: ["Stella Maris"], location: [13.0463, 80.2534] },
+            { name: "Women's Christian College", altNames: ["WCC"], location: [13.07022191970214, 80.24916264227603] },
+            { name: "Sri Sivasubramaniya Nadar College of Engineering", altNames: ["SSN"], location: [12.75191195582549, 80.20329991349257] },
+            { name: "Ethiraj College for Women", altNames: ["Ethiraj"], location: [13.062909480144592, 80.25716572878346] },
+            { name: "Presidency College", altNames: ["Presidency"], location: [13.058992857866688, 80.28182925158148] },
+            { name: "Sai Ram Engineering College", altNames: ["Sai Ram"], location: [12.9602, 80.0574] },
+            { name: "Vellore Institute of Technology", altNames: ["VIT" ,"vit"], location: [12.8406, 80.1534] },
+            { name: "Vels Institute of Science, Technology & Advanced Studies", altNames: ["Vels"], location: [12.957720090209602, 80.1598562] },
+            { name: "Madras Institute of Technology", altNames: ["MIT Chennai", "MIT"], location: [12.948713873432524, 80.13966590160884] },
+            { name: "SRM Easwari Engineering College", altNames: ["Easwari"], location: [13.032229655045734, 80.17944325767161] },
+            { name: "Saveetha University", altNames: ["saveetha"], location: [13.028521663817648, 80.01566674047777] },
+            { name: "Rajalakshmi Engineering college", altNames: ["rajalakshmi"], location: [13.008732016361884, 80.0035016865074] },
+            { name: "Chennai Institute of Technology", altNames: ["cit"], location: [12.971933920153328, 80.04351881480495] },
+            { name: "M.O.P. Vaishnav College for Women", altNames: ["mop","vaishnavi"], location: [13.055718930178399, 80.25029629814937] },
+            { name: "Panimalar Engineering College", altNames: ["panimalar"], location: [13.04919755002128, 80.07541055582098] },
+            { name: "SDNB VAISHNAV COLLEGE FOR WOMEN", altNames: ["sdnb","vaishnav"], location: [12.95621488290862, 80.14600436017842] },
+            { name: "Pachaiyappa's College", altNames: ["pachaiyappa","pachaiyappas"], location: [13.074470122970922, 80.23319262883581] }
+            { name: "Dr. M.G.R. Engineering College", altNames: ["MGR Engineering College"], location: [13.0700, 80.2500] },
+            { name: "Bharath Engineering College", altNames: ["Bharath College"], location: [12.9200, 80.1400] },
+            { name: "Crescent Engineering College", altNames: ["Crescent College"], location: [12.8400, 80.0800] },
+            { name: "A.C. College of Technology", altNames: ["AC Tech"], location: [13.0100, 80.2300] },
+            { name: "New College Institute of Management", altNames: ["New College Management"], location: [13.0600, 80.2600] },
+            { name: "Velammal College of Management and Computer Science", altNames: ["Velammal Management College"], location: [13.0800, 80.2100] },
+            { name: "Maharishi Institute of Management", altNames: ["Maharishi Management"], location: [13.0700, 80.2400] },
+            { name: "Aarupadai Veedu Institute of Technology", altNames: ["Aarupadai Veedu"], location: [13.0500, 80.2200] },
+            { name: "Valliammal College for Women", altNames: ["Valliammal College"], location: [13.0800, 80.2100] },
+            { name: "Asan Memorial Arts and Science College", altNames: ["Asan College"], location: [12.9800, 80.2200] }
+            { name: "Hindustan Institute of Technology and Science", altNames: ["HITS", "Hindustan University"], location: [12.9025, 80.2273] },
+            { name: "Meenakshi College for Women", altNames: ["Meenakshi College"], location: [13.0568, 80.2357] },
+            { name: "Meenakshi Sundararajan Engineering College", altNames: ["Meenakshi Sundararajan"], location: [13.0571, 80.2333] },
+            { name: "Jeppiaar Engineering College", altNames: ["Jeppiaar College"], location: [12.8727, 80.2195] },
+            { name: "Dhanalakshmi College of Engineering", altNames: ["Dhanalakshmi Engineering"], location: [13.0286, 80.0342] },
+            { name: "Alpha Arts and Science College", altNames: ["Alpha College"], location: [13.0371, 80.1484] },
+            { name: "KCG College of Technology", altNames: ["KCG Tech"], location: [12.9602, 80.1461] },
+            { name: "Vivekananda College", altNames: ["Vivekananda"], location: [13.0205, 80.2678] },
+            { name: "Dwaraka Doss Goverdhan Doss Vaishnav College", altNames: ["DG Vaishnav College"], location: [13.0765, 80.2103] },
+            { name: "Justice Basheer Ahmed Sayeed College for Women", altNames: ["JBAS College"], location: [13.0358, 80.2392] },
+            { name: "Guru Nanak College", altNames: ["Guru Nanak"], location: [12.9812, 80.2165] },
+            { name: "Mohamed Sathak College of Arts and Science", altNames: ["Mohamed Sathak College"], location: [12.9289, 80.1185] },
+            { name: "Sindhi College", altNames: ["Sindhi"], location: [13.0925, 80.1798] },
+            { name: "Prince Shri Venkateshwara Padmavathy Engineering College", altNames: ["Prince Engineering College"], location: [12.9063, 80.1216] },
+            { name: "Sri Sai Ram Institute of Technology", altNames: ["Sai Ram Tech"], location: [12.9672, 80.0553] }
+
+
+        ];
+        function handleFormSubmit(event) {
+                event.preventDefault();
+
+                var collegeName = document.getElementById('college').value.trim();
+                var collegeAddress = null;
+
+                // Find college address from pgLocations
+                    for (var i = 0; i < colleges.length; i++) {
+                        if (colleges[i].name.toLowerCase() === collegeName.toLowerCase() ||
+                            colleges[i].altNames.some(alt => alt.toLowerCase() === collegeName.toLowerCase())) {
+                            collegeAddress = colleges[i].location;
+                            break;
+                    }
+                }
+
+                if (!collegeAddress) {
+                    alert("College not found. Please enter a valid college name.");
+                    return;
+                }
+
         // Send data to Flask server
         fetch('http://127.0.0.1:5000/save_address', {
             method: 'POST',
@@ -120,8 +188,8 @@ body {
     </script>
     <div class="container">
          <form onsubmit="handleFormSubmit(event)">
-            <label for="college-address">What is your college address?</label>
-            <input type="text" id="college-address" placeholder="Enter your college address" required>
+            <label for="college">What is your college?</label>
+            <input type="text" id="college" placeholder="Enter your college name" required>
             <button type="submit">Next</button>
         </form>
     </div>

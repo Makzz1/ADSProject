@@ -7,57 +7,106 @@ app = Flask(__name__)
 CORS(app)
 
 # Global variable to store the address
-college_address = ""
+college_lat = None
+college_lon = None
 
 # Database connection details
-db_name = "postgres"
-db_user = "postgres.nbwcvxybhyhtjzcyxjmn"
-db_password = "1@Maghizh"
-db_host = "aws-0-ap-south-1.pooler.supabase.com"
-db_port = "6543"
+DB_CONFIG = {
+    'dbname': "postgres",
+    'user': "postgres.nbwcvxybhyhtjzcyxjmn",
+    'password': "1@Maghizh",
+    'host': "aws-0-ap-south-1.pooler.supabase.com",
+    'port': "6543"
+}
+
+def connect_db():
+    """Connect to the PostgreSQL database."""
+    return psycopg2.connect(**DB_CONFIG)
 
 @app.route('/save_address', methods=['POST'])
 def save_address():
-    global college_address
+    global college_lat, college_lon, selected_college_name
     data = request.json
     address = data.get("address")
+    college_name = data.get("name")  # ✅ Fetch college name from frontend
 
-    if address:
-        college_address = address
-        print("Received Address:", college_address)
+    if address and isinstance(address, list) and len(address) == 2:
+        college_lat, college_lon = address
+        selected_college_name = college_name  # ✅ Store the selected college name
+        print(f"✅ Received Address (Lat, Lon): {college_lat}, {college_lon} for {selected_college_name}")
     else:
-        pass
+        return jsonify({"error": "Invalid address format"}), 400
+
+    return jsonify({"message": "Address saved successfully"}), 200
+
+@app.route('/get_pg_listings', methods=['GET'])
+def get_pg_listings():
+    """Fetch PG listings and return with selected college details."""
+    global college_lat, college_lon
+
+    if college_lat is None or college_lon is None:
+        return jsonify({"error": "College address not found"}), 400
+
     try:
-        conn = psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=db_port)
-        conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)  # Set autocommit mode
+        conn = connect_db()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM pg_listings")
+
+        # Fetch PG listings
+        cur.execute('''
+            SELECT "Name", price, address, wifi, bedrooms, deposit, "AC_NON_AC", 
+                   "Parking", fridge, washing_machine, oven, furnished, "Gender", 
+                   latitude, longitude FROM pg_listings;
+        ''')
         listings = cur.fetchall()
         cur.close()
         conn.close()
 
+        if not listings:
+            return jsonify({"error": "No PG listings found"}), 404
+
         data_structure = minheap.MinHeap()
-        # Print the retrieved records
+
+        formatted_listings = []
         for listing in listings:
-                node = minheap.Node(listing[0],listing[1],listing[2],listing[3],listing[4],listing[5],listing[6],listing[7],listing[8],listing[9],listing[10],listing[11],listing[12])
-                #node.calculate_distance(college_address)
-                data_structure.push(node)
+            name, price, address, wifi, bedrooms, deposit, ac, parking, fridge, washing_machine, oven, furnished, gender, lat, lon = listing
+            node = minheap.Node(price, name, address, wifi, bedrooms, deposit, ac, parking, fridge, washing_machine,oven, furnished, gender, lat, lon)
+            node.distance = minheap.Node.calculate_distance(college_lat, college_lon, lat, lon)  # ✅ Corrected
 
-        print(data_structure)
+            data_structure.push(node)
 
+            def format_amenities(wifi, ac, parking, fridge, washing_machine, oven, furnished):
+                """Convert boolean values to readable amenities list."""
+                amenities = []
+                if wifi: amenities.append("WiFi")
+                if ac: amenities.append("AC")
+                if parking: amenities.append("Parking")
+                if fridge: amenities.append("Fridge")
+                if washing_machine: amenities.append("Washing Machine")
+                if oven: amenities.append("Oven")
+                if furnished: amenities.append("Furnished")
+                return ", ".join(amenities) if amenities else "No amenities"
 
+            formatted_listings.append({
+                "name": name,
+                "price": price,
+                "distance": round(node.distance, 2),
+                "address": address,
+                "amenities": format_amenities(wifi, ac, parking, fridge, washing_machine, oven, furnished),  # ✅ FIXED
+                "gender": gender,
+                "latitude": lat,
+                "longitude": lon
+            })
 
+        return jsonify({
+            "college_name": selected_college_name,  # ✅ Send college name
+            "college_lat": college_lat,  # ✅ Send latitude
+            "college_lon": college_lon,  # ✅ Send longitude
+            "listings": formatted_listings
+        }), 200
 
-        return jsonify({"listings": listings}), 200
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-        return jsonify({"error": "Failed to retrieve listings"}), 500
-
-@app.route('/get_address', methods=['GET'])
-def get_address():
-    return jsonify({"college_address": college_address})
-
-
+    except Exception as e:
+        print("Error fetching PG listings:", e)
+        return jsonify({"error": "Failed to fetch PG listings"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

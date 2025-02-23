@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammastay - PG Listings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            margin: 0;
+            background: #dbeafe; /* Pastel Blue */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            color: #2c3e50;
+            text-align: center;
+            padding: 20px 0;
+            background: #bcd4f8;
+        }
+
+        .college-info {
+            text-align: center;
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #bcd4f8;
+            border-bottom: 2px solid #2c3e50;
+            flex-wrap: wrap;
+        }
+
+        select, input {
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #2c3e50;
+            border-radius: 6px;
+            background: #bcd4f8;
+            color: #2c3e50;
+            min-width: 120px;
+        }
+
+        button {
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            background: #2c3e50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 160px);
+        }
+
+        .sidebar {
+            width: 60%;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .map-container {
+            width: 40%;
+            padding: 10px;
+        }
+
+        .pg-list { list-style: none; padding: 0; }
+        .pg-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: #f0f8ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #2c3e50;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .pg-item:hover {
+            background: #a0c4ff;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Nammastay - PG Listings</div>
+
+    <div class="college-info">
+        <strong>Selected College:</strong> <span id="collegeName">Loading...</span>
+    </div>
+
+    <div class="filters">
+        <label for="sort">Sort by:</label>
+        <select id="sort">
+            <option value="distanceLow">Distance: Low to High</option>
+            <option value="distanceHigh">Distance: High to Low</option>
+        </select>
+
+        <label for="amenities">Filter by Amenities:</label>
+        <select id="amenities">
+            <option value="all">All</option>
+            <option value="wifi">WiFi</option>
+            <option value="ac">AC</option>
+            <option value="parking">Parking</option>
+            <option value="fridge">Fridge</option>
+            <option value="washing_machine">Washing Machine</option>
+            <option value="oven">Oven</option>
+            <option value="furnished">Furnished</option>
+        </select>
+
+        <label for="minPrice">Min Price:</label>
+        <input type="number" id="minPrice" placeholder="₹ Min">
+
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" id="maxPrice" placeholder="₹ Max">
+
+        <button onclick="updatePGListings()">Apply Filters</button>
+    </div>
+
+    <div class="content">
+        <div class="sidebar">
+            <ul class="pg-list" id="pgList">
+                <p>Loading PG listings...</p>
+            </ul>
+        </div>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        let allPGs = [];
+        let map;
+        let collegeMarker = null;
+
+        function fetchPGListings() {
+            fetch('http://127.0.0.1:5000/get_pg_listings')
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ API Response:", data);
+                if (data.listings) {
+                    allPGs = data.listings;
+                    updatePGListings();
+
+                    if (document.getElementById("map")) {
+                        loadMap(data.listings, data.college_lat, data.college_lon);
+                    } else {
+                        console.error("❌ Map container not found.");
+                    }
+
+                    // Show selected college name
+                    document.getElementById("collegeName").textContent = data.college_name || "Unknown";
+                } else {
+                    document.getElementById("pgList").innerHTML = "<p>No PGs found.</p>";
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching PG listings:", error);
+                document.getElementById("pgList").innerHTML = `<p>Error loading PG listings: ${error}</p>`;
+            });
+        }
+
+        function updatePGListings() {
+            let sortOption = document.getElementById("sort").value;
+            let selectedAmenity = document.getElementById("amenities").value;
+            let minPrice = parseInt(document.getElementById("minPrice").value) || 0;
+            let maxPrice = parseInt(document.getElementById("maxPrice").value) || 100000;
+
+            let filteredPGs = allPGs.filter(pg => {
+                return (
+                    pg.price >= minPrice &&
+                    pg.price <= maxPrice &&
+                    (selectedAmenity === "all" || pg.amenities.toLowerCase().includes(selectedAmenity.toLowerCase()))
+                );
+            });
+
+            if (sortOption === "distanceLow") {
+                filteredPGs.sort((a, b) => a.distance - b.distance);
+            } else if (sortOption === "distanceHigh") {
+                filteredPGs.sort((a, b) => b.distance - a.distance);
+            }
+
+            displayListings(filteredPGs);
+            loadMap(filteredPGs);
+        }
+
+        function displayListings(pgs) {
+            let pgList = document.getElementById("pgList");
+            pgList.innerHTML = "";
+            pgs.forEach(pg => {
+                let li = document.createElement("li");
+                li.className = "pg-item";
+                li.innerHTML = `<strong>${pg.name}</strong><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km<br>Amenities: ${pg.amenities}`;
+                li.addEventListener("click", () => {
+                    map.setView([pg.latitude, pg.longitude], 15);
+                });
+                pgList.appendChild(li);
+            });
+        }
+
+        function loadMap(pgs, collegeLat, collegeLon) {
+            if (map) {
+                map.remove();
+            }
+            map = L.map('map').setView([pgs[0].latitude, pgs[0].longitude], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            pgs.forEach(pg => {
+                L.marker([pg.latitude, pg.longitude]).addTo(map)
+                    .bindPopup(`<b>${pg.name}</b><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km`);
+            });
+
+            if (collegeLat && collegeLon) {
+                L.marker([collegeLat, collegeLon], { icon: L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' }) }).addTo(map)
+                    .bindPopup("<b>Your College</b>").openPopup();
+            }
+        }
+
+        window.onload = fetchPGListings;
+    </script>
+</body>
+</html>

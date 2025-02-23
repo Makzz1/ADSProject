@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Address</title>
+    <title>Nammastay - Find Your Perfect PG</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -13,29 +13,43 @@
             box-sizing: border-box;
         }
 
-body {
+        body {
             font-family: 'Poppins', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            justify-content: center;
+            min-height: 100vh;
             background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
             background-size: 400% 400%;
             animation: wave 6s infinite alternate;
-            position: relative;
+            text-align: center;
+            padding: 20px;
         }
 
         @keyframes wave {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
+
+        .title {
+            font-size: 55px;
+            font-weight: 700;
+            color: #0a3d62;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .description {
+            font-size: 18px;
+            color: #2d3436;
+            max-width: 850px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
         .container {
-            background-color: #000;
+            background-color: #ffffff;
             padding: 30px;
             border-radius: 15px;
             width: 600px;
@@ -44,32 +58,51 @@ body {
         }
 
         label {
-            font-size: 24px;
-            color: #ffffff;
-            display: block;
-            margin-bottom: 15px;
+            font-size: 20px;
             font-weight: bold;
+            color: #0a3d62;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
         }
 
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: none;
-            border-bottom: 2px solid #5faad9;
-            background: transparent;
-            color: #fff;
-            font-size: 18px;
+            border: 2px solid #5faad9;
+            border-radius: 6px;
+            font-size: 16px;
             outline: none;
             text-align: center;
-            transition: 0.3s;
         }
 
-        input[type="text"]:focus {
-            border-bottom-color: #3c8bb7;
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #5faad9;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        input::placeholder {
-            color: #bbb;
+        .dropdown div {
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .dropdown div:hover {
+            background-color: #d1ecf1;
         }
 
         button {
@@ -83,47 +116,122 @@ body {
             font-weight: bold;
             cursor: pointer;
             border-radius: 8px;
-            transition: 0.3s;
         }
 
         button:hover {
             background-color: #3c8bb7;
         }
+
     </style>
 </head>
 <body>
-    <script>
-    function handleFormSubmit(event) {
-        event.preventDefault();
-        
-        var collegeAddress = document.getElementById('college-address').value;
-        
-        // Send data to Flask server
-        fetch('http://127.0.0.1:5000/save_address', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ address: collegeAddress })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Server Response:', data);
-            alert('Address saved successfully!');
-            window.location.href = "login page.html";
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error saving address');
-        });
-    }
-    </script>
-    <div class="container">
-         <form onsubmit="handleFormSubmit(event)">
-            <label for="college-address">What is your college address?</label>
-            <input type="text" id="college-address" placeholder="Enter your college address" required>
-            <button type="submit">Next</button>
-        </form>
+
+    <div class="title">Nammastay</div>
+    <div class="description">
+        **Finding the perfect PG just got easier!**
+        Nammastay is your trusted companion in discovering the best hostels & PG accommodations near your college.
+        Simply select your college, and we’ll show you a curated list of options that match your needs.
+        Comfort, affordability, and convenience—all in one place.
     </div>
+
+    <div class="container">
+        <label for="college">Select Your College:</label>
+        <div class="search-container">
+            <input type="text" id="college" placeholder="Enter your college name" oninput="filterColleges()">
+            <div class="dropdown" id="collegeDropdown"></div>
+        </div>
+        <button onclick="handleFormSubmit()">Next</button>
+    </div>
+
+    <script>
+        var colleges = [
+            { name: "Anna University", altNames: ["Anna"], location: [13.0131, 80.2364] },
+            { name: "University of Madras", altNames: ["Madras University"], location: [13.0662, 80.2830] },
+            { name: "Indian Institute Of Technology Madras", altNames: ["IIT Madras", "IIT"], location: [12.9915, 80.2337] },
+            { name: "Loyola College", altNames: ["Loyola"], location: [13.0788, 80.2347] },
+            { name: "Sathyabama Institute of Science and Technology", altNames: ["Sathyabama"], location: [12.8733, 80.2261] },
+            { name: "Madras Christian College", altNames: ["MCC"], location: [12.9213, 80.1220] },
+            { name: "SRM Institute of Science and Technology", altNames: ["SRM University", "SRM"], location: [13.0461, 80.1761] },
+            { name: "Stella Maris College", altNames: ["Stella Maris"], location: [13.0463, 80.2534] },
+            { name: "Women's Christian College", altNames: ["WCC"], location: [13.0702, 80.2492] },
+            { name: "Sri Sivasubramaniya Nadar College of Engineering", altNames: ["SSN"], location: [12.7519, 80.2033] },
+            { name: "Ethiraj College for Women", altNames: ["Ethiraj"], location: [13.0629, 80.2572] },
+            { name: "Presidency College", altNames: ["Presidency"], location: [13.0590, 80.2818] },
+            { name: "Sai Ram Engineering College", altNames: ["Sai Ram"], location: [12.9602, 80.0574] },
+            { name: "Vellore Institute of Technology", altNames: ["VIT"], location: [12.8406, 80.1534] },
+            { name: "Vels Institute of Science, Technology & Advanced Studies", altNames: ["Vels"], location: [12.9577, 80.1599] },
+            { name: "Madras Institute of Technology", altNames: ["MIT Chennai", "MIT"], location: [12.9487, 80.1397] },
+            { name: "SRM Easwari Engineering College", altNames: ["Easwari"], location: [13.0322, 80.1794] },
+            { name: "Saveetha University", altNames: ["Saveetha"], location: [13.0285, 80.0157] },
+            { name: "Rajalakshmi Engineering College", altNames: ["Rajalakshmi"], location: [13.0087, 80.0035] },
+            { name: "Chennai Institute of Technology", altNames: ["CIT"], location: [12.9719, 80.0435] },
+            { name: "M.O.P. Vaishnav College for Women", altNames: ["MOP", "Vaishnav"], location: [13.0557, 80.2503] },
+            { name: "Panimalar Engineering College", altNames: ["Panimalar"], location: [13.0492, 80.0754] },
+            { name: "SDNB Vaishnav College for Women", altNames: ["SDNB", "Vaishnav"], location: [12.9562, 80.1460] },
+            { name: "Pachaiyappa's College", altNames: ["Pachaiyappa"], location: [13.0745, 80.2332] },
+            { name: "Hindustan Institute of Technology and Science", altNames: ["HITS", "Hindustan University"], location: [12.9025, 80.2273] },
+            { name: "Meenakshi College for Women", altNames: ["Meenakshi College"], location: [13.0568, 80.2357] },
+            { name: "Meenakshi Sundararajan Engineering College", altNames: ["Meenakshi Sundararajan"], location: [13.0571, 80.2333] },
+            { name: "Jeppiaar Engineering College", altNames: ["Jeppiaar College"], location: [12.8727, 80.2195] },
+            { name: "Dhanalakshmi College of Engineering", altNames: ["Dhanalakshmi Engineering"], location: [13.0286, 80.0342] },
+            { name: "Alpha Arts and Science College", altNames: ["Alpha College"], location: [13.0371, 80.1484] },
+            { name: "KCG College of Technology", altNames: ["KCG Tech"], location: [12.9602, 80.1461] },
+            { name: "Vivekananda College", altNames: ["Vivekananda"], location: [13.0205, 80.2678] }
+        ];
+
+
+        function filterColleges() {
+            let input = document.getElementById('college').value.toLowerCase();
+            let dropdown = document.getElementById('collegeDropdown');
+            dropdown.innerHTML = "";
+
+            if (input.length === 0) {
+                dropdown.style.display = "none";
+                return;
+            }
+
+            let filtered = colleges.filter(college =>
+                college.name.toLowerCase().startsWith(input) ||
+                college.altNames.some(alt => alt.toLowerCase().startsWith(input))
+            );
+
+            if (filtered.length === 0) {
+                dropdown.style.display = "none";
+                return;
+            }
+
+            filtered.forEach(college => {
+                let div = document.createElement("div");
+                div.textContent = college.name;
+                div.onclick = () => {
+                    document.getElementById('college').value = college.name;
+                    dropdown.style.display = "none";
+                };
+                dropdown.appendChild(div);
+            });
+
+            dropdown.style.display = "block";
+        }
+
+        function handleFormSubmit() {
+            let collegeName = document.getElementById('college').value.trim();
+            let selectedCollege = colleges.find(c => c.name.toLowerCase() === collegeName.toLowerCase());
+
+            if (!selectedCollege) {
+                alert("College not found. Please enter a valid college name.");
+                return;
+            }
+
+            fetch('http://127.0.0.1:5000/save_address', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ address: selectedCollege.location, name: selectedCollege.name })
+            })
+            .then(response => response.json())
+            .then(() => window.location.href = "second_page.html")
+            .catch(error => alert('Error saving address'));
+        }
+    </script>
+
 </body>
 </html>

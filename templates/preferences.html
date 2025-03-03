@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nammastay - Find Your Perfect PG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
 
         * {
             margin: 0;
@@ -13,135 +15,220 @@
             box-sizing: border-box;
         }
 
-
         body {
             font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             min-height: 100vh;
             background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
             background-size: 400% 400%;
             animation: wave 6s infinite alternate;
-            text-align: center;
-            padding: 20px;
+            padding: 2rem;
         }
 
         @keyframes wave {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+            height: calc(100vh - 4rem);
+            align-items: center;
+        }
+
+        .left-section {
+            padding: 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0c4a6e;
+            margin-bottom: 1rem;
         }
 
         .title {
-            font-size: 55px;
-            font-weight: 700;
-            color: #0a3d62;
-            margin-bottom: 10px;
-            text-transform: uppercase;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: #0c4a6e;
+            margin-bottom: 1.5rem;
         }
 
         .description {
-            font-size: 18px;
-            color: #2d3436;
-            max-width: 850px;
-            margin-bottom: 35px;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #334155;
+            margin-bottom: 2rem;
         }
 
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            width: 600px;
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h3 {
+            color: #0c4a6e;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .search-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-title {
+            font-size: 1.8rem;
+            color: #0c4a6e;
+            margin-bottom: 2rem;
             text-align: center;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        label {
-            font-size: 20px;
-            font-weight: bold;
-            color: #0a3d62;
-            display: block;
-            margin-bottom: 10px;
         }
 
         .search-container {
             position: relative;
-            width: 100%;
         }
 
         input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #5faad9;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"]:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
             outline: none;
-            text-align: center;
         }
 
         .dropdown {
             position: absolute;
-            top: 100%;
-            left: 0;
             width: 100%;
-            max-height: 200px;
+            max-height: 300px;
             overflow-y: auto;
             background: white;
-            border: 1px solid #5faad9;
-            border-radius: 5px;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
             display: none;
             z-index: 1000;
-            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .dropdown div {
-            padding: 10px;
+            padding: 1rem 1.5rem;
             cursor: pointer;
-            text-align: center;
+            transition: all 0.2s ease;
         }
 
         .dropdown div:hover {
-            background-color: #d1ecf1;
+            background: #f0f9ff;
         }
 
         button {
             width: 100%;
-            padding: 14px;
-            margin-top: 15px;
+            padding: 1.2rem;
+            background: linear-gradient(45deg, #0ea5e9, #0284c7);
+            color: white;
             border: none;
-            background-color: #5faad9;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
 
         button:hover {
-            background-color: #3c8bb7;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(14, 165, 233, 0.2);
         }
 
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                height: auto;
+            }
+
+            .left-section {
+                padding: 1rem;
+                text-align: center;
+            }
+
+            .title {
+                font-size: 2.5rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <div class="title">Nammastay</div>
-    <div class="description">
-        **Finding the perfect PG just got easier!**
-        Nammastay is your trusted companion in discovering the best hostels & PG accommodations near your college.
-        Simply select your college, and we’ll show you a curated list of options that match your needs.
-        Comfort, affordability, and convenience—all in one place.
-    </div>
-
-    <div class="container">
-        <label for="college">Select Your College:</label>
-        <div class="search-container">
-            <input type="text" id="college" placeholder="Enter your college name" oninput="filterColleges()">
-            <div class="dropdown" id="collegeDropdown"></div>
+    <div class="main-container">
+        <div class="left-section">
+            <div class="logo">Nammastay</div>
+            <h1 class="title">Find Your Perfect PG Near Your College</h1>
+            <p class="description">
+                Welcome to Nammastay, your trusted companion in discovering the best hostels & PG accommodations. 
+                We make it easy to find comfortable, affordable, and convenient living spaces near your college.
+            </p>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Smart Location</h3>
+                    <p>Find PGs within walking distance of your college</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Verified Listings</h3>
+                    <p>All PGs are personally verified for quality</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Compare Options</h3>
+                    <p>Easy comparison of amenities and prices</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Quick Booking</h3>
+                    <p>Simple and hassle-free booking process</p>
+                </div>
+            </div>
         </div>
-        <button onclick="handleFormSubmit()">Next</button>
+
+        <div class="search-section">
+            <h2 class="search-title">Select Your College</h2>
+            <div class="search-container">
+                <input type="text" id="college" placeholder="Type your college name..." oninput="filterColleges()">
+                <div class="dropdown" id="collegeDropdown"></div>
+            </div>
+            <button onclick="handleFormSubmit()">Find PGs Near Me</button>
+        </div>
     </div>
 
     <script>
@@ -179,7 +266,6 @@
             { name: "KCG College of Technology", altNames: ["KCG Tech"], location: [12.9602, 80.1461] },
             { name: "Vivekananda College", altNames: ["Vivekananda"], location: [13.0205, 80.2678] }
         ];
-
 
         function filterColleges() {
             let input = document.getElementById('college').value.toLowerCase();
@@ -233,6 +319,5 @@
             .catch(error => alert('Error saving address'));
         }
     </script>
-
 </body>
 </html>

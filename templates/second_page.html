@@ -5,104 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nammastay - PG Listings</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            height: 100vh;
             margin: 0;
-            background: #dbeafe; /* Pastel Blue */
-            display: flex;
-            flex-direction: column;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 6s infinite alternate;
+            min-height: 100vh;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
         .header {
             font-family: 'Playfair Display', serif;
-            font-size: 40px;
-            color: #2c3e50;
+            font-size: 2.5rem;
+            color: #0c4a6e;
             text-align: center;
             padding: 20px 0;
-            background: #bcd4f8;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .college-info {
             text-align: center;
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #0c4a6e;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 10px 20px;
+            border-radius: 10px;
         }
 
         .filters {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: #bcd4f8;
-            border-bottom: 2px solid #2c3e50;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 0 20px;
+            border-radius: 10px;
             flex-wrap: wrap;
         }
 
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         select, input {
-            padding: 8px;
-            font-size: 14px;
-            border: 1px solid #2c3e50;
-            border-radius: 6px;
-            background: #bcd4f8;
-            color: #2c3e50;
-            min-width: 120px;
+            padding: 10px;
+            font-size: 0.9rem;
+            border: 1px solid #0c4a6e;
+            border-radius: 8px;
+            background: white;
+            color: #0c4a6e;
+            min-width: 150px;
         }
 
         button {
-            padding: 8px 15px;
-            font-size: 14px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
             border: none;
-            border-radius: 6px;
-            background: #2c3e50;
+            border-radius: 8px;
+            background: #0c4a6e;
             color: white;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #075985;
+            transform: translateY(-2px);
         }
 
         .content {
             display: flex;
-            width: 100%;
-            height: calc(100vh - 160px);
+            padding: 20px;
+            gap: 20px;
+            height: calc(100vh - 250px);
         }
 
         .sidebar {
             width: 60%;
-            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
             overflow-y: auto;
         }
 
         .map-container {
             width: 40%;
-            padding: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
         }
 
-        .pg-list { list-style: none; padding: 0; }
+        .pg-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         .pg-item {
-            padding: 12px;
-            margin: 8px 0;
-            background: #f0f8ff;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            color: #2c3e50;
-            text-align: left;
-            cursor: pointer;
+            padding: 20px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
 
         .pg-item:hover {
-            background: #a0c4ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .pg-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 10px;
+        }
+
+        .pg-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .pg-detail {
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .pg-amenities {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .pg-contact {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            color: #0c4a6e;
         }
 
         #map {
             width: 100%;
             height: 100%;
-            border-radius: 10px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -114,29 +175,35 @@
     </div>
 
     <div class="filters">
-        <label for="sort">Sort by:</label>
-        <select id="sort">
-            <option value="distanceLow">Distance: Low to High</option>
-            <option value="distanceHigh">Distance: High to Low</option>
-        </select>
+        <div class="filter-group">
+            <label for="sort">Sort by:</label>
+            <select id="sort">
+                <option value="distanceLow">Distance: Low to High</option>
+                <option value="distanceHigh">Distance: High to Low</option>
+                <option value="priceLow">Price: Low to High</option>
+                <option value="priceHigh">Price: High to Low</option>
+            </select>
+        </div>
 
-        <label for="amenities">Filter by Amenities:</label>
-        <select id="amenities">
-            <option value="all">All</option>
-            <option value="wifi">WiFi</option>
-            <option value="ac">AC</option>
-            <option value="parking">Parking</option>
-            <option value="fridge">Fridge</option>
-            <option value="washing_machine">Washing Machine</option>
-            <option value="oven">Oven</option>
-            <option value="furnished">Furnished</option>
-        </select>
+        <div class="filter-group">
+            <label for="amenities">Amenities:</label>
+            <select id="amenities">
+                <option value="all">All</option>
+                <option value="wifi">WiFi</option>
+                <option value="ac">AC</option>
+                <option value="parking">Parking</option>
+                <option value="fridge">Fridge</option>
+                <option value="washing_machine">Washing Machine</option>
+                <option value="oven">Oven</option>
+                <option value="furnished">Furnished</option>
+            </select>
+        </div>
 
-        <label for="minPrice">Min Price:</label>
-        <input type="number" id="minPrice" placeholder="₹ Min">
-
-        <label for="maxPrice">Max Price:</label>
-        <input type="number" id="maxPrice" placeholder="₹ Max">
+        <div class="filter-group">
+            <input type="number" id="minPrice" placeholder="Min Price">
+            <span>to</span>
+            <input type="number" id="maxPrice" placeholder="Max Price">
+        </div>
 
         <button onclick="updatePGListings()">Apply Filters</button>
     </div>
@@ -144,7 +211,7 @@
     <div class="content">
         <div class="sidebar">
             <ul class="pg-list" id="pgList">
-                <p>Loading PG listings...</p>
+                <li>Loading PG listings...</li>
             </ul>
         </div>
         <div class="map-container">
@@ -156,32 +223,28 @@
     <script>
         let allPGs = [];
         let map;
+        let markers = [];
         let collegeMarker = null;
+        let collegeLat, collegeLon;
 
         function fetchPGListings() {
             fetch('http://127.0.0.1:5000/get_pg_listings')
             .then(response => response.json())
             .then(data => {
-                console.log("✅ API Response:", data);
-                if (data.listings) {
-                    allPGs = data.listings;
-                    updatePGListings();
-
-                    if (document.getElementById("map")) {
-                        loadMap(data.listings, data.college_lat, data.college_lon);
-                    } else {
-                        console.error("❌ Map container not found.");
-                    }
-
-                    // Show selected college name
-                    document.getElementById("collegeName").textContent = data.college_name || "Unknown";
-                } else {
-                    document.getElementById("pgList").innerHTML = "<p>No PGs found.</p>";
-                }
+                allPGs = data.listings;
+                collegeLat = data.college_lat;
+                collegeLon = data.college_lon;
+                document.getElementById("collegeName").textContent = data.college_name || "Unknown";
+                
+                // Set initial price range
+                document.getElementById("minPrice").value = data.min_price;
+                document.getElementById("maxPrice").value = data.max_price;
+                
+                updatePGListings();
             })
             .catch(error => {
                 console.error("Error fetching PG listings:", error);
-                document.getElementById("pgList").innerHTML = `<p>Error loading PG listings: ${error}</p>`;
+                document.getElementById("pgList").innerHTML = `<li>Error loading PG listings: ${error}</li>`;
             });
         }
 
@@ -189,7 +252,7 @@
             let sortOption = document.getElementById("sort").value;
             let selectedAmenity = document.getElementById("amenities").value;
             let minPrice = parseInt(document.getElementById("minPrice").value) || 0;
-            let maxPrice = parseInt(document.getElementById("maxPrice").value) || 100000;
+            let maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
 
             let filteredPGs = allPGs.filter(pg => {
                 return (
@@ -199,63 +262,72 @@
                 );
             });
 
-            if (sortOption === "distanceLow") {
-                filteredPGs.sort((a, b) => a.distance - b.distance);
-            } else if (sortOption === "distanceHigh") {
-                filteredPGs.sort((a, b) => b.distance - a.distance);
-            }
+            // Sorting
+            filteredPGs.sort((a, b) => {
+                switch(sortOption) {
+                    case "distanceLow": return a.distance - b.distance;
+                    case "distanceHigh": return b.distance - a.distance;
+                    case "priceLow": return a.price - b.price;
+                    case "priceHigh": return b.price - a.price;
+                    default: return 0;
+                }
+            });
 
             displayListings(filteredPGs);
-            loadMap(filteredPGs);
+            updateMap(filteredPGs);
         }
-
-<!--        function displayListings(pgs) {-->
-<!--            let pgList = document.getElementById("pgList");-->
-<!--            pgList.innerHTML = "";-->
-<!--            pgs.forEach(pg => {-->
-<!--                let li = document.createElement("li");-->
-<!--                li.className = "pg-item";-->
-<!--                li.innerHTML = `<strong>${pg.name}</strong><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km<br>Amenities: ${pg.amenities}`;-->
-<!--                li.addEventListener("click", () => {-->
-<!--                    map.setView([pg.latitude, pg.longitude], 15);-->
-<!--                });-->
 
         function displayListings(pgs) {
             let pgList = document.getElementById("pgList");
-            pgList.innerHTML = "";
-            pgs.forEach(pg => {
-                let li = document.createElement("li");
-                li.className = "pg-item";
-                li.innerHTML = `<strong>${pg.name}</strong><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km<br>Amenities: ${pg.amenities}`;
-                li.addEventListener("click", () => {
-                    window.location.href = `/third_page?id=${pg.name}`;
-                });
-                pgList.appendChild(li);
-            });
+            pgList.innerHTML = pgs.map(pg => `
+                <li class="pg-item" onclick="window.location.href='/third_page?id=${encodeURIComponent(pg.name)}'">
+                    <div class="pg-name">${pg.name}</div>
+                    <div class="pg-details">
+                        <div class="pg-detail">Price: ₹${pg.price}</div>
+                        <div class="pg-detail">Distance: ${pg.distance} km</div>
+                    </div>
+                    <div class="pg-amenities">${pg.amenities}</div>
+                </li>
+            `).join('');
         }
 
-<!--                pgList.appendChild(li);-->
-<!--            });-->
-<!--        }-->
-
-        function loadMap(pgs, collegeLat, collegeLon) {
-            if (map) {
-                map.remove();
+        function updateMap(pgs) {
+            if (!map) {
+                map = L.map('map').setView([collegeLat, collegeLon], 12);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(map);
             }
-            map = L.map('map').setView([pgs[0].latitude, pgs[0].longitude], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
 
+            // Clear existing markers
+            markers.forEach(marker => marker.remove());
+            markers = [];
+
+            // Add college marker
+            collegeMarker = L.marker([collegeLat, collegeLon], {
+                icon: L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41]
+                })
+            }).addTo(map).bindPopup("<b>Your College</b>");
+            markers.push(collegeMarker);
+
+            // Add PG markers
             pgs.forEach(pg => {
-                L.marker([pg.latitude, pg.longitude]).addTo(map)
-                    .bindPopup(`<b>${pg.name}</b><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km`);
+                let marker = L.marker([pg.latitude, pg.longitude])
+                    .addTo(map)
+                    .bindPopup(`
+                        <b>${pg.name}</b><br>
+                        Price: ₹${pg.price}<br>
+                        Distance: ${pg.distance} km
+                    `);
+                markers.push(marker);
             });
 
-            if (collegeLat && collegeLon) {
-                L.marker([collegeLat, collegeLon], { icon: L.icon({ iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' }) }).addTo(map)
-                    .bindPopup("<b>Your College</b>").openPopup();
-            }
+            // Fit bounds to show all markers
+            let bounds = L.featureGroup(markers).getBounds();
+            map.fitBounds(bounds);
         }
 
         window.onload = fetchPGListings;

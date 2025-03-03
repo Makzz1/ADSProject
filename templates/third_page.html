@@ -5,95 +5,338 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PG Details - Nammastay</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Add Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
-            background: #dbeafe;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 6s infinite alternate;
+            min-height: 100vh;
+            overflow: hidden;
         }
-        .container {
-            max-width: 800px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
+
         h1 {
             font-family: 'Playfair Display', serif;
             text-align: center;
-            color: #2c3e50;
+            color: #0c4a6e;
+            font-size: 2.5rem;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 0;
         }
-        .details {
-            font-size: 18px;
-            color: #2c3e50;
-            margin-bottom: 20px;
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 80px); /* Subtract header height */
+            overflow: hidden;
         }
-        .map-container {
-            width: 100%;
-            height: 300px;
+
+        .details-section {
+            padding: 30px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .detail-group {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .detail-icon {
+            color: #0c4a6e;
+            font-size: 24px;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 1.2rem;
+            color: #1e293b;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 8px;
+            color: #0c4a6e;
+            backdrop-filter: blur(5px);
         }
+
+        .amenity-item.available {
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        .amenity-icon {
+            color: #0c4a6e;
+            font-size: 20px;
+        }
+
+        .map-container {
+            height: 100%;
+        }
+
         #map {
             width: 100%;
             height: 100%;
         }
-        .back-button {
-            display: block;
-            text-align: center;
+
+        .contact-section {
+            display: flex;
+            gap: 20px;
             margin-top: 20px;
-            padding: 10px;
-            background: #2c3e50;
+        }
+
+        .contact-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(12, 74, 110, 0.9);
             color: white;
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .back-button:hover {
+            background: rgba(7, 89, 133, 0.9);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+
+            .details-section {
+                padding: 20px;
+            }
+        }
+
+        /* Custom scrollbar */
+        .details-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .details-section::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .details-section::-webkit-scrollbar-thumb {
+            background: rgba(12, 74, 110, 0.5);
+            border-radius: 4px;
+        }
+
+        .details-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(12, 74, 110, 0.7);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1 id="pgName">Loading...</h1>
-        <p class="details"><strong>Price:</strong> <span id="pgPrice"></span></p>
-        <p class="details"><strong>Distance:</strong> <span id="pgDistance"></span> km</p>
-        <p class="details"><strong>Amenities:</strong> <span id="pgAmenities"></span></p>
-        <div class="map-container">
-            <div id="map"></div>
+        
+        <div class="content-wrapper">
+            <div class="details-section">
+                <div class="detail-group">
+                    <span class="material-icons detail-icon">payments</span>
+                    <div class="detail-content">
+                        <div class="detail-label">Price</div>
+                        <div class="detail-value" id="pgPrice">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <span class="material-icons detail-icon">place</span>
+                    <div class="detail-content">
+                        <div class="detail-label">Distance from College</div>
+                        <div class="detail-value" id="pgDistance">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <span class="material-icons detail-icon">home</span>
+                    <div class="detail-content">
+                        <div class="detail-label">Address</div>
+                        <div class="detail-value" id="pgAddress">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <span class="material-icons detail-icon">people</span>
+                    <div class="detail-content">
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value" id="pgGender">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="detail-group">
+                    <span class="material-icons detail-icon">stars</span>
+                    <div class="detail-content">
+                        <div class="detail-label">Amenities</div>
+                        <div class="amenities-grid" id="pgAmenities">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <div class="contact-item">
+                        <span class="material-icons detail-icon">phone</span>
+                        <div class="detail-content">
+                            <div class="detail-label">Contact</div>
+                            <div class="detail-value" id="pgContact">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
         </div>
-        <a href="/second_page" class="back-button">Back to Listings</a>
     </div>
+
+    <a href="/second_page" class="back-button">
+        <span class="material-icons">arrow_back</span>
+        Back to Listings
+    </a>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const pgId = urlParams.get('id');
 
+        function getAmenityIcon(amenity) {
+            const icons = {
+                'WiFi': 'wifi',
+                'AC': 'ac_unit',
+                'Parking': 'local_parking',
+                'Fridge': 'kitchen',
+                'Washing Machine': 'local_laundry_service',
+                'Oven': 'microwave',
+                'Furnished': 'chair'
+            };
+            return `<span class="material-icons amenity-icon">${icons[amenity] || 'star'}</span>`;
+        }
+
         function fetchPGDetails() {
-            fetch(`http://127.0.0.1:5000/get_pg_details?id=${pgId}`)
+            fetch(`http://127.0.0.1:5000/get_pg_details?id=${encodeURIComponent(pgId)}`)
             .then(response => response.json())
             .then(data => {
                 if (data) {
                     document.getElementById("pgName").textContent = data.name;
                     document.getElementById("pgPrice").textContent = `₹${data.price}`;
-                    document.getElementById("pgDistance").textContent = data.distance;
-                    document.getElementById("pgAmenities").textContent = data.amenities;
-                    loadMap(data.latitude, data.longitude);
-                } else {
-                    document.querySelector(".container").innerHTML = "<p>PG details not found.</p>";
+                    document.getElementById("pgDistance").textContent = `${data.distance} km`;
+                    document.getElementById("pgAddress").textContent = data.address;
+                    document.getElementById("pgGender").textContent = data.gender;
+                    document.getElementById("pgContact").textContent = data.contact || 'Not available';
+
+                    const amenitiesArray = data.amenities.split(', ');
+                    const amenitiesHTML = amenitiesArray.map(amenity => `
+                        <div class="amenity-item available">
+                            ${getAmenityIcon(amenity)} ${amenity}
+                        </div>
+                    `).join('');
+                    document.getElementById("pgAmenities").innerHTML = amenitiesHTML;
+
+                    loadMap(data.latitude, data.longitude, data.college_lat, data.college_lon);
                 }
             })
             .catch(error => console.error("Error fetching PG details:", error));
         }
 
-        function loadMap(lat, lon) {
-            let map = L.map('map').setView([lat, lon], 15);
+        function loadMap(pgLat, pgLon, collegeLat, collegeLon) {
+            let map = L.map('map').setView([pgLat, pgLon], 14);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
-            L.marker([lat, lon]).addTo(map).bindPopup("<b>PG Location</b>").openPopup();
+
+            // Add PG marker
+            L.marker([pgLat, pgLon]).addTo(map)
+                .bindPopup("<b>PG Location</b>").openPopup();
+
+            // Add college marker with red icon
+            if (collegeLat && collegeLon) {
+                L.marker([collegeLat, collegeLon], {
+                    icon: L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41]
+                    })
+                }).addTo(map).bindPopup("<b>Your College</b>");
+
+                // Fit bounds to show both markers
+                let bounds = L.latLngBounds([
+                    [pgLat, pgLon],
+                    [collegeLat, collegeLon]
+                ]);
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
         }
 
         window.onload = fetchPGDetails;

@@ -209,6 +209,17 @@
             loadMap(filteredPGs);
         }
 
+<!--        function displayListings(pgs) {-->
+<!--            let pgList = document.getElementById("pgList");-->
+<!--            pgList.innerHTML = "";-->
+<!--            pgs.forEach(pg => {-->
+<!--                let li = document.createElement("li");-->
+<!--                li.className = "pg-item";-->
+<!--                li.innerHTML = `<strong>${pg.name}</strong><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km<br>Amenities: ${pg.amenities}`;-->
+<!--                li.addEventListener("click", () => {-->
+<!--                    map.setView([pg.latitude, pg.longitude], 15);-->
+<!--                });-->
+
         function displayListings(pgs) {
             let pgList = document.getElementById("pgList");
             pgList.innerHTML = "";
@@ -217,11 +228,15 @@
                 li.className = "pg-item";
                 li.innerHTML = `<strong>${pg.name}</strong><br>Price: ₹${pg.price}<br>Distance: ${pg.distance} km<br>Amenities: ${pg.amenities}`;
                 li.addEventListener("click", () => {
-                    map.setView([pg.latitude, pg.longitude], 15);
+                    window.location.href = `/third_page?id=${pg.name}`;
                 });
                 pgList.appendChild(li);
             });
         }
+
+<!--                pgList.appendChild(li);-->
+<!--            });-->
+<!--        }-->
 
         function loadMap(pgs, collegeLat, collegeLon) {
             if (map) {

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG Details - Nammastay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: #dbeafe;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #2c3e50;
+        }
+        .details {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="pgName">Loading...</h1>
+        <p class="details"><strong>Price:</strong> <span id="pgPrice"></span></p>
+        <p class="details"><strong>Distance:</strong> <span id="pgDistance"></span> km</p>
+        <p class="details"><strong>Amenities:</strong> <span id="pgAmenities"></span></p>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <a href="/second_page" class="back-button">Back to Listings</a>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pgId = urlParams.get('id');
+
+        function fetchPGDetails() {
+            fetch(`http://127.0.0.1:5000/get_pg_details?id=${pgId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById("pgName").textContent = data.name;
+                    document.getElementById("pgPrice").textContent = `₹${data.price}`;
+                    document.getElementById("pgDistance").textContent = data.distance;
+                    document.getElementById("pgAmenities").textContent = data.amenities;
+                    loadMap(data.latitude, data.longitude);
+                } else {
+                    document.querySelector(".container").innerHTML = "<p>PG details not found.</p>";
+                }
+            })
+            .catch(error => console.error("Error fetching PG details:", error));
+        }
+
+        function loadMap(lat, lon) {
+            let map = L.map('map').setView([lat, lon], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([lat, lon]).addTo(map).bindPopup("<b>PG Location</b>").openPopup();
+        }
+
+        window.onload = fetchPGDetails;
+    </script>
+</body>
+</html>

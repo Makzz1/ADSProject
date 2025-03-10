@@ -200,9 +200,13 @@
         </div>
 
         <div class="filter-group">
-            <input type="number" id="minPrice" placeholder="Min Price">
-            <span>to</span>
-            <input type="number" id="maxPrice" placeholder="Max Price">
+            <label for="priceRange">Price Range:</label>
+            <select id="priceRange">
+                <option value="0-5000">₹0 - ₹5,000</option>
+                <option value="5000-10000">₹5,000 - ₹10,000</option>
+                <option value="10000-15000">₹10,000 - ₹15,000</option>
+                <option value="15000+">₹15,000 and above</option>
+            </select>
         </div>
 
         <button onclick="updatePGListings()">Apply Filters</button>
@@ -237,8 +241,7 @@
                 document.getElementById("collegeName").textContent = data.college_name || "Unknown";
                 
                 // Set initial price range
-                document.getElementById("minPrice").value = data.min_price;
-                document.getElementById("maxPrice").value = data.max_price;
+                document.getElementById("priceRange").value = "0-5000";
                 
                 updatePGListings();
             })
@@ -251,13 +254,13 @@
         function updatePGListings() {
             let sortOption = document.getElementById("sort").value;
             let selectedAmenity = document.getElementById("amenities").value;
-            let minPrice = parseInt(document.getElementById("minPrice").value) || 0;
-            let maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
+            let priceRange = document.getElementById("priceRange").value;
+
+            let [minPrice, maxPrice] = getPriceRange(priceRange);
 
             let filteredPGs = allPGs.filter(pg => {
                 return (
-                    pg.price >= minPrice &&
-                    pg.price <= maxPrice &&
+                    (priceRange === "15000+" ? pg.price >= 15000 : (pg.price >= minPrice && pg.price <= maxPrice)) &&
                     (selectedAmenity === "all" || pg.amenities.toLowerCase().includes(selectedAmenity.toLowerCase()))
                 );
             });
@@ -275,6 +278,16 @@
 
             displayListings(filteredPGs);
             updateMap(filteredPGs);
+        }
+
+        function getPriceRange(range) {
+            switch(range) {
+                case "0-5000": return [0, 5000];
+                case "5000-10000": return [5000, 10000];
+                case "10000-15000": return [10000, 15000];
+                case "15000+": return [15000, Infinity];
+                default: return [0, Infinity];
+            }
         }
 
         function displayListings(pgs) {

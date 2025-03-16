@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammastay - Verify Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 6s infinite alternate;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: #0c4a6e;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #0c4a6e;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .verification-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #0ea5e9, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        .resend-link {
+            display: block;
+            margin-top: 1rem;
+            color: #0c4a6e;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background-color: #fef2f2;
+            border-radius: 0.5rem;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .email-display {
+            color: #0c4a6e;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Nammastay</div>
+        <h2>Verify Your Email</h2>
+        {% if email %}
+        <p class="email-display">Code sent to: {{ email }}</p>
+        {% endif %}
+        <p class="description">Please enter the verification code sent to your email address</p>
+
+        {% if error %}
+        <div class="error-message show">{{ error }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('manager_verification') }}" method="POST" class="verification-form">
+            <input type="text" name="verification_code" maxlength="6" placeholder="Enter code" required 
+                   pattern="[A-Za-z0-9]{6}" title="Please enter the 6-character code">
+            <button type="submit">Verify Code</button>
+        </form>
+
+        <a href="{{ url_for('manager_verification') }}" class="resend-link">Didn't receive the code? Resend</a>
+    </div>
+</body>
+</html> 

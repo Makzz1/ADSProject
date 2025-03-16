@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammastay - Add PG Listing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --secondary-color: #0284c7;
+            --text-color: #0c4a6e;
+            --light-gray: #e2e8f0;
+            --success-color: #16a34a;
+            --error-color: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 15s infinite alternate;
+            padding: 2rem;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .home-button {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: white;
+            color: var(--text-color);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-group:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+        }
+
+        button[type="submit"]::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        button[type="submit"]:hover::after {
+            left: 100%;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert.success {
+            background-color: #dcfce7;
+            color: var(--success-color);
+            border: 1px solid #86efac;
+        }
+
+        .alert.error {
+            background-color: #fee2e2;
+            color: var(--error-color);
+            border: 1px solid #fca5a5;
+        }
+
+        .alert i {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 968px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .amenities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .location-group {
+            position: relative;
+        }
+
+        .location-help {
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .location-help:hover {
+            text-decoration: underline;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230c4a6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="{{ url_for('home') }}" class="home-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <div class="logo">Nammastay</div>
+            <h2>Add PG Listing</h2>
+            {% if success_message %}
+            <div class="alert success">
+                <i class="fas fa-check-circle"></i>
+                {{ success_message }}
+            </div>
+            {% endif %}
+            {% if error_message %}
+            <div class="alert error">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ error_message }}
+            </div>
+            {% endif %}
+        </div>
+
+        <form action="{{ url_for('submit_pg') }}" method="POST" id="pgForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">PG Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter PG name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Monthly Rent (₹)</label>
+                    <input type="number" id="price" name="price" min="0" step="100" placeholder="Enter monthly rent" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bedrooms">Number of Bedrooms</label>
+                    <input type="number" id="bedrooms" name="bedrooms" min="1" placeholder="Enter number of bedrooms" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ac_non_ac">AC/Non-AC</label>
+                    <select id="ac_non_ac" name="ac_non_ac" required>
+                        <option value="">Select Option</option>
+                        <option value="AC">AC</option>
+                        <option value="Non-AC">Non-AC</option>
+                        <option value="Both">Both Available</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="deposit">Security Deposit (₹)</label>
+                    <input type="number" id="deposit" name="deposit" min="0" step="100" placeholder="Enter security deposit" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Preferred Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Any">Any</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="address">Complete Address</label>
+                    <textarea id="address" name="address" placeholder="Enter complete address with landmarks" required></textarea>
+                </div>
+
+                <div class="form-group location-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="number" id="latitude" name="latitude" step="any" placeholder="Enter latitude" required>
+                    <a href="https://www.latlong.net" target="_blank" class="location-help" title="Find coordinates">
+                        <i class="fas fa-map-marker-alt"></i> Find coordinates
+                    </a>
+                </div>
+
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="number" id="longitude" name="longitude" step="any" placeholder="Enter longitude" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="Enter 10-digit number" title="Please enter a valid 10-digit phone number" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <h3 style="color: var(--text-color); margin-bottom: 1rem;">
+                        <i class="fas fa-home"></i> Available Amenities
+                    </h3>
+                    <div class="amenities-grid">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="wifi" name="wifi">
+                            <label for="wifi"><i class="fas fa-wifi"></i> WiFi</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="fridge" name="fridge">
+                            <label for="fridge"><i class="fas fa-snowflake"></i> Fridge</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="oven" name="oven">
+                            <label for="oven"><i class="fas fa-fire"></i> Oven</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="washing_machine" name="washing_machine">
+                            <label for="washing_machine"><i class="fas fa-tshirt"></i> Washing Machine</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="furnished" name="furnished">
+                            <label for="furnished"><i class="fas fa-couch"></i> Furnished</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="parking" name="parking">
+                            <label for="parking"><i class="fas fa-parking"></i> Parking</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">
+                <i class="fas fa-plus-circle"></i> Add Listing
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Clear form on successful submission
+        {% if success_message %}
+            document.getElementById('pgForm').reset();
+        {% endif %}
+
+        // Preserve form data on error
+        {% if form_data %}
+            const formData = {{ form_data|tojson }};
+            Object.keys(formData).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.type === 'checkbox') {
+                        element.checked = formData[key] === 'on';
+                    } else {
+                        element.value = formData[key];
+                    }
+                }
+            });
+        {% endif %}
+    </script>
+</body>
+</html>

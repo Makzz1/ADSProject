@@ -4,17 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nammastay - PG Listings</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --text-dark: #0c4a6e;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --success: #16a34a;
+            --error: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
             background-size: 400% 400%;
-            animation: wave 6s infinite alternate;
+            animation: wave 15s infinite alternate;
             min-height: 100vh;
         }
 
@@ -24,89 +40,151 @@
         }
 
         .header {
+            position: relative;
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
-            color: #0c4a6e;
+            color: var(--text-dark);
             text-align: center;
-            padding: 20px 0;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .home-button {
+            position: absolute;
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+        }
+
+        .home-button:hover {
+            transform: translateY(-50%) translateX(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
         }
 
         .college-info {
             text-align: center;
             font-size: 1.2rem;
-            color: #0c4a6e;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            margin: 10px 20px;
-            border-radius: 10px;
+            color: var(--text-dark);
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 1rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .filters {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            margin: 0 20px;
-            border-radius: 10px;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            margin: 0 2rem;
+            border-radius: 1rem;
             flex-wrap: wrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .filter-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.8rem;
         }
 
-        select, input {
-            padding: 10px;
-            font-size: 0.9rem;
-            border: 1px solid #0c4a6e;
-            border-radius: 8px;
+        .filter-group label {
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        select {
+            padding: 0.8rem 2rem 0.8rem 1rem;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.8rem;
             background: white;
-            color: #0c4a6e;
-            min-width: 150px;
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border: none;
-            border-radius: 8px;
-            background: #0c4a6e;
-            color: white;
-            cursor: pointer;
+            color: var(--text-dark);
+            min-width: 180px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230c4a6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
             transition: all 0.3s ease;
         }
 
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         button:hover {
-            background: #075985;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
         }
 
         .content {
             display: flex;
-            padding: 20px;
-            gap: 20px;
+            padding: 2rem;
+            gap: 2rem;
             height: calc(100vh - 250px);
         }
 
         .sidebar {
             width: 60%;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1.5rem;
             overflow-y: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .map-container {
             width: 40%;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 165, 233, 0.1);
         }
 
         .pg-list {
@@ -116,67 +194,146 @@
         }
 
         .pg-item {
-            padding: 20px;
-            margin: 10px 0;
+            padding: 1.5rem;
+            margin: 1rem 0;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+            cursor: pointer;
         }
 
         .pg-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+            border-color: var(--primary);
         }
 
         .pg-name {
             font-size: 1.2rem;
             font-weight: 600;
-            color: #0c4a6e;
-            margin-bottom: 10px;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pg-name i {
+            color: var(--primary);
+            font-size: 1rem;
         }
 
         .pg-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .pg-detail {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pg-detail i {
+            color: var(--primary);
             font-size: 0.9rem;
-            color: #334155;
         }
 
         .pg-amenities {
             font-size: 0.9rem;
-            color: #64748b;
+            color: var(--text-light);
+            padding-top: 0.8rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
 
-        .pg-contact {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #e2e8f0;
-            color: #0c4a6e;
+        .amenity-tag {
+            background: var(--bg-light);
+            padding: 0.4rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         #map {
             width: 100%;
             height: 100%;
-            border-radius: 8px;
+            border-radius: 0.8rem;
+            border: 2px solid rgba(14, 165, 233, 0.1);
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar, .map-container {
+                width: 100%;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+
+            .home-button {
+                position: static;
+                transform: none;
+                margin: 1rem auto;
+                width: fit-content;
+            }
+
+            .header {
+                padding: 1rem;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            select {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">Nammastay - PG Listings</div>
+    <div class="header">
+        <a href="{{ url_for('home') }}" class="home-button">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <span>Nammastay - PG Listings</span>
+    </div>
 
     <div class="college-info">
-        <strong>Selected College:</strong> <span id="collegeName">Loading...</span>
+        <i class="fas fa-university"></i>
+        <strong> Selected College:</strong> <span id="collegeName">Loading...</span>
     </div>
 
     <div class="filters">
         <div class="filter-group">
-            <label for="sort">Sort by:</label>
+            <label for="sort"><i class="fas fa-sort"></i> Sort by:</label>
             <select id="sort">
                 <option value="distanceLow">Distance: Low to High</option>
                 <option value="distanceHigh">Distance: High to Low</option>
@@ -186,7 +343,7 @@
         </div>
 
         <div class="filter-group">
-            <label for="amenities">Amenities:</label>
+            <label for="amenities"><i class="fas fa-list-check"></i> Amenities:</label>
             <select id="amenities">
                 <option value="all">All</option>
                 <option value="wifi">WiFi</option>
@@ -200,7 +357,7 @@
         </div>
 
         <div class="filter-group">
-            <label for="priceRange">Price Range:</label>
+            <label for="priceRange"><i class="fas fa-indian-rupee-sign"></i> Price Range:</label>
             <select id="priceRange">
                 <option value="0-5000">₹0 - ₹5,000</option>
                 <option value="5000-10000">₹5,000 - ₹10,000</option>
@@ -209,13 +366,19 @@
             </select>
         </div>
 
-        <button onclick="updatePGListings()">Apply Filters</button>
+        <button onclick="updatePGListings()">
+            <i class="fas fa-filter"></i> Apply Filters
+        </button>
     </div>
 
     <div class="content">
         <div class="sidebar">
             <ul class="pg-list" id="pgList">
-                <li>Loading PG listings...</li>
+                <li class="pg-item">
+                    <div class="pg-name">
+                        <i class="fas fa-spinner fa-spin"></i> Loading PG listings...
+                    </div>
+                </li>
             </ul>
         </div>
         <div class="map-container">
@@ -239,15 +402,18 @@
                 collegeLat = data.college_lat;
                 collegeLon = data.college_lon;
                 document.getElementById("collegeName").textContent = data.college_name || "Unknown";
-                
-                // Set initial price range
                 document.getElementById("priceRange").value = "0-5000";
-                
                 updatePGListings();
             })
             .catch(error => {
                 console.error("Error fetching PG listings:", error);
-                document.getElementById("pgList").innerHTML = `<li>Error loading PG listings: ${error}</li>`;
+                document.getElementById("pgList").innerHTML = `
+                    <li class="pg-item">
+                        <div class="pg-name">
+                            <i class="fas fa-exclamation-circle"></i> Error loading PG listings
+                        </div>
+                        <div class="pg-detail">${error}</div>
+                    </li>`;
             });
         }
 
@@ -265,7 +431,6 @@
                 );
             });
 
-            // Sorting
             filteredPGs.sort((a, b) => {
                 switch(sortOption) {
                     case "distanceLow": return a.distance - b.distance;
@@ -280,6 +445,58 @@
             updateMap(filteredPGs);
         }
 
+        function formatAmenities(amenitiesStr) {
+            return amenitiesStr.split(', ').map(amenity => 
+                `<span class="amenity-tag"><i class="fas fa-${getAmenityIcon(amenity)}"></i> ${amenity}</span>`
+            ).join('');
+        }
+
+        function getAmenityIcon(amenity) {
+            const icons = {
+                'WiFi': 'wifi',
+                'AC': 'snowflake',
+                'Parking': 'parking',
+                'Fridge': 'box',
+                'Washing Machine': 'tshirt',
+                'Oven': 'fire',
+                'Furnished': 'couch'
+            };
+            return icons[amenity] || 'check';
+        }
+
+        function displayListings(pgs) {
+            let pgList = document.getElementById("pgList");
+            if (pgs.length === 0) {
+                pgList.innerHTML = `
+                    <li class="pg-item">
+                        <div class="pg-name">
+                            <i class="fas fa-info-circle"></i> No PGs found
+                        </div>
+                        <div class="pg-detail">Try adjusting your filters</div>
+                    </li>`;
+                return;
+            }
+
+            pgList.innerHTML = pgs.map(pg => `
+                <li class="pg-item" onclick="window.location.href='/third_page?id=${encodeURIComponent(pg.name)}'">
+                    <div class="pg-name">
+                        <i class="fas fa-building"></i> ${pg.name}
+                    </div>
+                    <div class="pg-details">
+                        <div class="pg-detail">
+                            <i class="fas fa-indian-rupee-sign"></i> ₹${pg.price.toLocaleString()}
+                        </div>
+                        <div class="pg-detail">
+                            <i class="fas fa-location-dot"></i> ${pg.distance} km
+                        </div>
+                    </div>
+                    <div class="pg-amenities">
+                        ${formatAmenities(pg.amenities)}
+                    </div>
+                </li>
+            `).join('');
+        }
+
         function getPriceRange(range) {
             switch(range) {
                 case "0-5000": return [0, 5000];
@@ -290,20 +507,6 @@
             }
         }
 
-        function displayListings(pgs) {
-            let pgList = document.getElementById("pgList");
-            pgList.innerHTML = pgs.map(pg => `
-                <li class="pg-item" onclick="window.location.href='/third_page?id=${encodeURIComponent(pg.name)}'">
-                    <div class="pg-name">${pg.name}</div>
-                    <div class="pg-details">
-                        <div class="pg-detail">Price: ₹${pg.price}</div>
-                        <div class="pg-detail">Distance: ${pg.distance} km</div>
-                    </div>
-                    <div class="pg-amenities">${pg.amenities}</div>
-                </li>
-            `).join('');
-        }
-
         function updateMap(pgs) {
             if (!map) {
                 map = L.map('map').setView([collegeLat, collegeLon], 12);
@@ -312,11 +515,9 @@
                 }).addTo(map);
             }
 
-            // Clear existing markers
             markers.forEach(marker => marker.remove());
             markers = [];
 
-            // Add college marker
             collegeMarker = L.marker([collegeLat, collegeLon], {
                 icon: L.icon({
                     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -326,19 +527,17 @@
             }).addTo(map).bindPopup("<b>Your College</b>");
             markers.push(collegeMarker);
 
-            // Add PG markers
             pgs.forEach(pg => {
                 let marker = L.marker([pg.latitude, pg.longitude])
                     .addTo(map)
                     .bindPopup(`
                         <b>${pg.name}</b><br>
-                        Price: ₹${pg.price}<br>
-                        Distance: ${pg.distance} km
+                        <i class="fas fa-indian-rupee-sign"></i> ₹${pg.price}<br>
+                        <i class="fas fa-location-dot"></i> ${pg.distance} km
                     `);
                 markers.push(marker);
             });
 
-            // Fit bounds to show all markers
             let bounds = L.featureGroup(markers).getBounds();
             map.fitBounds(bounds);
         }

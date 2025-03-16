@@ -127,6 +127,18 @@
             outline: none;
         }
 
+        input[type="text"].error {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
         .dropdown {
             position: absolute;
             width: 100%;
@@ -189,9 +201,46 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .add-pg-button {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #0ea5e9, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-pg-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        .add-pg-button svg {
+            width: 16px;
+            height: 16px;
+        }
     </style>
 </head>
 <body>
+    <a href="{{ url_for('manager_verification') }}" class="add-pg-button">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add PG
+    </a>
+
     <div class="main-container">
         <div class="left-section">
             <div class="logo">Nammastay</div>
@@ -300,11 +349,13 @@
         }
 
         function handleFormSubmit() {
-            let collegeName = document.getElementById('college').value.trim();
+            let input = document.getElementById('college');
+            let collegeName = input.value.trim();
             let selectedCollege = colleges.find(c => c.name.toLowerCase() === collegeName.toLowerCase());
 
             if (!selectedCollege) {
-                alert("College not found. Please enter a valid college name.");
+                input.classList.add('error');
+                setTimeout(() => input.classList.remove('error'), 1000);
                 return;
             }
 
@@ -315,8 +366,16 @@
             })
             .then(response => response.json())
             .then(() => window.location.href = "/second_page")
-            .catch(error => alert('Error saving address'));
+            .catch(error => {
+                input.classList.add('error');
+                setTimeout(() => input.classList.remove('error'), 1000);
+            });
         }
+
+        // Remove error class when user starts typing
+        document.getElementById('college').addEventListener('input', function() {
+            this.classList.remove('error');
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammastay - Manager Verification</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 6s infinite alternate;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: #0c4a6e;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #0c4a6e;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: #0c4a6e;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+
+        .verification-type {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .verification-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .verification-option:hover {
+            border-color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .verification-option.selected {
+            border-color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #0ea5e9, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #0c4a6e;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Nammastay</div>
+            <h2>Manager Verification</h2>
+            <p class="description">Please provide your details to continue</p>
+        </div>
+
+        <form action="{{ url_for('manager_verification') }}" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Verification Type</label>
+                <div class="verification-type">
+                    <div class="verification-option" onclick="selectVerification('aadhar')">
+                        Aadhar Card
+                    </div>
+                    <div class="verification-option" onclick="selectVerification('pan')">
+                        PAN Card
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_number">ID Number</label>
+                <input type="text" id="id_number" name="id_number" required>
+            </div>
+
+            <button type="submit">Verify & Continue</button>
+        </form>
+
+        <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        function selectVerification(type) {
+            document.querySelectorAll('.verification-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            const idInput = document.getElementById('id_number');
+            if (type === 'aadhar') {
+                idInput.pattern = "[0-9]{12}";
+                idInput.placeholder = "Enter 12-digit Aadhar number";
+            } else {
+                idInput.pattern = "[A-Z]{5}[0-9]{4}[A-Z]{1}";
+                idInput.placeholder = "Enter 10-character PAN number";
+            }
+        }
+    </script>
+</body>
+</html> 

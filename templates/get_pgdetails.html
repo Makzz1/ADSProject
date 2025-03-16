@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nammastay - Add PG Listing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fdfdfd 30%, #569abb 70%);
+            background-size: 400% 400%;
+            animation: wave 6s infinite alternate;
+            padding: 2rem;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            color: #0c4a6e;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: #0c4a6e;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            color: #0c4a6e;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: #0ea5e9;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(45deg, #0ea5e9, #0284c7);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Nammastay</div>
+            <h2>Add PG Listing</h2>
+        </div>
+
+        <form action="submit_pg.php" method="POST">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">PG Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Monthly Rent (₹)</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bedrooms">Number of Bedrooms</label>
+                    <input type="number" id="bedrooms" name="bedrooms" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ac_non_ac">AC/Non-AC</label>
+                    <input type="text" id="ac_non_ac" name="ac_non_ac" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="deposit">Security Deposit (₹)</label>
+                    <input type="number" id="deposit" name="deposit" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Preferred Gender</label>
+                    <input type="text" id="gender" name="gender" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="address">Complete Address</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" id="latitude" name="latitude" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" id="longitude" name="longitude" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact">Contact Number</label>
+                    <input type="text" id="contact" name="contact" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <h3 style="color: #0c4a6e; margin-bottom: 1rem;">Amenities</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="wifi" name="wifi">
+                            <label for="wifi">WiFi</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="fridge" name="fridge">
+                            <label for="fridge">Fridge</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="oven" name="oven">
+                            <label for="oven">Oven</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="washing_machine" name="washing_machine">
+                            <label for="washing_machine">Washing Machine</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="furnished" name="furnished">
+                            <label for="furnished">Furnished</label>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="parking" name="parking">
+                            <label for="parking">Parking</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">Add Listing</button>
+        </form>
+    </div>
+</body>
+</html>

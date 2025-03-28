@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 from flask_cors import CORS
 import psycopg2
-import minheap
+from backend import minheap
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -381,4 +381,4 @@ The Nammastay Team
         return False
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
 import psycopg2
 from backend import minheap
 import smtplib
@@ -7,7 +9,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 import string
-import os
 
 app = Flask(__name__)
 app.secret_key = '1234'  # Required for session management
@@ -18,23 +19,21 @@ college_lat = None
 college_lon = None
 
 # Database connection details
+load_dotenv()
+
+# Database connection details (Now from environment variables)
 DB_CONFIG = {
-    'dbname': "postgres",
-    'user': "postgres.nbwcvxybhyhtjzcyxjmn",
-    'password': "1@Maghizh",
-    'host': "aws-0-ap-south-1.pooler.supabase.com",
-    'port': "6543"
+    'dbname': os.getenv("DB_NAME"),
+    'user': os.getenv("DB_USER"),
+    'password': os.getenv("DB_PASSWORD"),
+    'host': os.getenv("DB_HOST"),
+    'port': os.getenv("DB_PORT")
 }
+
 
 def connect_db():
     """Connect to the PostgreSQL database."""
-    return psycopg2.connect(
-        dbname=os.environ["DB_NAME"],
-        user=os.environ["DB_USER"],
-        password=os.environ["DB_PASSWORD"],
-        host=os.environ["DB_HOST"],
-        port=os.environ["DB_PORT"]
-    )
+    return psycopg2.connect(**DB_CONFIG)
 
 @app.route('/')
 def home():
@@ -346,8 +345,8 @@ def generate_secret_code(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 def send_verification_email(recipient_email, name, secret_code):
-    sender_email = 'hotelpandianmail@gmail.com'
-    sender_password = "zibfzkbecvxdqmsl"
+    sender_email = os.getenv("EMAIL_USER")
+    sender_password = os.getenv("EMAIL_PASSWORD")
     subject = "Nammastay - Manager Account Verification"
     
     body = f'''Dear {name},

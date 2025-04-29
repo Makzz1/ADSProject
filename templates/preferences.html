@@ -246,7 +246,7 @@
             <div class="logo">Nammastay</div>
             <h1 class="title">Find Your Perfect PG Near Your College</h1>
             <p class="description">
-                Welcome to Nammastay, your trusted companion in discovering the best hostels & PG accommodations. 
+                Welcome to Nammastay, your trusted companion in discovering the best hostels & PG accommodations.
                 We make it easy to find comfortable, affordable, and convenient living spaces near your college.
             </p>
             <div class="features">
@@ -263,8 +263,8 @@
                     <p>Easy comparison of amenities and prices</p>
                 </div>
                 <div class="feature-card">
-                    <h3>Quick Booking</h3>
-                    <p>Simple and hassle-free booking process</p>
+                    <h3>Smart Recommendation</h3>
+                    <p>Simple and hassle-free recommendation process</p>
                 </div>
             </div>
         </div>
@@ -280,39 +280,160 @@
     </div>
 
     <script>
+<!--        var colleges = [-->
+<!--            { name: "Anna University", altNames: ["Anna"], location: [13.0131, 80.2364] },-->
+<!--            { name: "University of Madras", altNames: ["Madras University"], location: [13.0662, 80.2830] },-->
+<!--            { name: "Indian Institute Of Technology Madras", altNames: ["IIT Madras", "IIT"], location: [12.9915, 80.2337] },-->
+<!--            { name: "Loyola College", altNames: ["Loyola"], location: [13.0788, 80.2347] },-->
+<!--            { name: "Sathyabama Institute of Science and Technology", altNames: ["Sathyabama"], location: [12.8733, 80.2261] },-->
+<!--            { name: "Madras Christian College", altNames: ["MCC"], location: [12.9213, 80.1220] },-->
+<!--            { name: "SRM Institute of Science and Technology", altNames: ["SRM University", "SRM"], location: [13.0461, 80.1761] },-->
+<!--            { name: "Stella Maris College", altNames: ["Stella Maris"], location: [13.0463, 80.2534] },-->
+<!--            { name: "Women's Christian College", altNames: ["WCC"], location: [13.0702, 80.2492] },-->
+<!--            { name: "Sri Sivasubramaniya Nadar College of Engineering", altNames: ["SSN"], location: [12.7519, 80.2033] },-->
+<!--            { name: "Ethiraj College for Women", altNames: ["Ethiraj"], location: [13.0629, 80.2572] },-->
+<!--            { name: "Presidency College", altNames: ["Presidency"], location: [13.0590, 80.2818] },-->
+<!--            { name: "Sai Ram Engineering College", altNames: ["Sai Ram"], location: [12.9602, 80.0574] },-->
+<!--            { name: "Vellore Institute of Technology", altNames: ["VIT"], location: [12.8406, 80.1534] },-->
+<!--            { name: "Vels Institute of Science, Technology & Advanced Studies", altNames: ["Vels"], location: [12.9577, 80.1599] },-->
+<!--            { name: "Madras Institute of Technology", altNames: ["MIT Chennai", "MIT"], location: [12.9487, 80.1397] },-->
+<!--            { name: "SRM Easwari Engineering College", altNames: ["Easwari"], location: [13.0322, 80.1794] },-->
+<!--            { name: "Saveetha University", altNames: ["Saveetha"], location: [13.0285, 80.0157] },-->
+<!--            { name: "Rajalakshmi Engineering College", altNames: ["Rajalakshmi"], location: [13.0087, 80.0035] },-->
+<!--            { name: "Chennai Institute of Technology", altNames: ["CIT"], location: [12.9719, 80.0435] },-->
+<!--            { name: "M.O.P. Vaishnav College for Women", altNames: ["MOP", "Vaishnav"], location: [13.0557, 80.2503] },-->
+<!--            { name: "Panimalar Engineering College", altNames: ["Panimalar"], location: [13.0492, 80.0754] },-->
+<!--            { name: "SDNB Vaishnav College for Women", altNames: ["SDNB", "Vaishnav"], location: [12.9562, 80.1460] },-->
+<!--            { name: "Pachaiyappa's College", altNames: ["Pachaiyappa"], location: [13.0745, 80.2332] },-->
+<!--            { name: "Hindustan Institute of Technology and Science", altNames: ["HITS", "Hindustan University"], location: [12.9025, 80.2273] },-->
+<!--            { name: "Meenakshi College for Women", altNames: ["Meenakshi College"], location: [13.0568, 80.2357] },-->
+<!--            { name: "Meenakshi Sundararajan Engineering College", altNames: ["Meenakshi Sundararajan"], location: [13.0571, 80.2333] },-->
+<!--            { name: "Jeppiaar Engineering College", altNames: ["Jeppiaar College"], location: [12.8727, 80.2195] },-->
+<!--            { name: "Dhanalakshmi College of Engineering", altNames: ["Dhanalakshmi Engineering"], location: [13.0286, 80.0342] },-->
+<!--            { name: "Alpha Arts and Science College", altNames: ["Alpha College"], location: [13.0371, 80.1484] },-->
+<!--            { name: "KCG College of Technology", altNames: ["KCG Tech"], location: [12.9602, 80.1461] },-->
+<!--            { name: "Vivekananda College", altNames: ["Vivekananda"], location: [13.0205, 80.2678] },-->
+<!--            { name: "Madras Medical College", altNames: ["MMC"], location: [13.080298610752116, 80.27234959644314] },-->
+<!--            { name: "Stanley Medical College", altNames: ["Stanley"], location: [13.106413982141737, 80.28669308650741] },-->
+<!--            { name: "Regional Centre for Cancer Research and Treatment,", altNames: ["RCCRT"], location: [13.01059990183219, 80.24872685767178] },-->
+<!--            { name: "Government Kilpauk Medical College", altNames: ["GKMC"], location: [13.078703243597358, 80.24387937116411] },-->
+<!--            { name: "Sankara Netralaya Medical Research Foundation", altNames: ["SNMRF"], location: [13.062453901322234, 80.25129224041032] },-->
+<!--            { name: "Sri Ramachandra Medical College & Research Institute", altNames: ["SRMC"], location: [13.045631466041286, 80.1413096003057] },-->
+<!--            { name: "The Tamilnadu Dr. MGR Medical University", altNames: ["MGR University"], location: [13.010061867940529, 80.21821140000002] },-->
+<!--            { name: "Sree Balaji Medical College and Hospital", altNames: ["SBMCH"], location: [12.955274019724946, 80.1377290018513] },-->
+<!--            { name: "ACS Medical College and Hospital", altNames: ["ACSMCH"], location: [13.059210399411407, 80.12765741844945] },-->
+<!--            { name: "Saveetha Medical College and Hospital", altNames: ["SMCH"], location: [13.024728577554733, 80.01745305948813] },-->
+<!--            { name: "Sri Muthukumaran Medical College", altNames: ["SMMCH"], location: [13.018537821065149, 80.1102869957023] },-->
+<!--            { name: "Tagore Medical College and Hospital", altNames: ["TMCH"], location: [12.860449442739265, 80.13639725390449] },-->
+<!--            { name: "Madha Medical College and Hospital", altNames: ["MMCH"], location: [13.00439310006124, 80.11224366717802] },-->
+<!--            { name: "ESIC Medical College and Hospital", altNames: ["ESICMCH"], location: [28.394528676220535, 77.2937012] },-->
+<!--            { name: "Government Medical College", altNames: ["GMC"], location: [28.39480709958038, 77.29370119999997] },-->
+<!--            { name: "Panimalar Medical College Hospital & Research Institute", altNames: ["PMCHRI"], location: [13.056761809441085, 80.0752952288359] },-->
+<!--            { name: "Faculty of Medicine - Sri Lalithambigai Medical College and Hospital", altNames: ["SLMCH"], location: [13.065830987410086, 80.16067084232819] },-->
+<!--            { name: "Sri Venkateswaraa Medical College Hospital and Research Institute", altNames: ["SVMC"], location: [12.472782803740438, 79.75786992675118] },-->
+<!--            { name: "PSP Medical College Hospital and Research Institute", altNames: ["PSPMCHRI"], location: [12.840149838563935, 79.914217088359] },-->
+<!--            { name: "Government Siddha Medical College", altNames: ["GSMC"], location: [13.078823086418588, 80.2181641] },-->
+<!--            { name: "Government Yoga and Naturopathy Medical College ", altNames: ["GYNMC"], location: [13.075721294297947, 80.21946430199515] },-->
+<!--            { name: "SRM Medical College Hospital and Research Centre", altNames: ["SRMCHRC"], location: [12.821059234919668, 80.04815174232819] },-->
+<!--            { name: "Chettinad Hospital and Research Institute", altNames: ["CHRI"], location: [12.796908856898991, 80.21848632168253] },-->
+<!--            { name: "Vels Institute of Science, Technology, and Advanced Studies (VISTAS)", altNames: ["VISTAS"], location: [12.957798507456662, 80.15983474232819] },-->
+<!--            { name: "Meenakshi Medical College Hospital and Research Institute", altNames: ["MMCHRI"], location: [12.872585117616945, 79.7238984] },-->
+<!--            { name: "Bhaarath Medical College and Hospital", altNames: ["BMCH"], location: [12.908231783118504, 80.1397487] },-->
+<!--            { name: "SMK Fomra Institute of Technology", altNames: ["SMKFIT"], location: [12.764653750366177, 80.201650264425] },-->
+<!--            { name: "P.S.B Polytechnic College", altNames: ["PSBPC"], location: [12.762099783908361, 80.20635245843522] }-->
+<!--        ];-->
         var colleges = [
-            { name: "Anna University", altNames: ["Anna"], location: [13.0131, 80.2364] },
-            { name: "University of Madras", altNames: ["Madras University"], location: [13.0662, 80.2830] },
-            { name: "Indian Institute Of Technology Madras", altNames: ["IIT Madras", "IIT"], location: [12.9915, 80.2337] },
-            { name: "Loyola College", altNames: ["Loyola"], location: [13.0788, 80.2347] },
-            { name: "Sathyabama Institute of Science and Technology", altNames: ["Sathyabama"], location: [12.8733, 80.2261] },
-            { name: "Madras Christian College", altNames: ["MCC"], location: [12.9213, 80.1220] },
-            { name: "SRM Institute of Science and Technology", altNames: ["SRM University", "SRM"], location: [13.0461, 80.1761] },
-            { name: "Stella Maris College", altNames: ["Stella Maris"], location: [13.0463, 80.2534] },
-            { name: "Women's Christian College", altNames: ["WCC"], location: [13.0702, 80.2492] },
-            { name: "Sri Sivasubramaniya Nadar College of Engineering", altNames: ["SSN"], location: [12.7519, 80.2033] },
-            { name: "Ethiraj College for Women", altNames: ["Ethiraj"], location: [13.0629, 80.2572] },
-            { name: "Presidency College", altNames: ["Presidency"], location: [13.0590, 80.2818] },
-            { name: "Sai Ram Engineering College", altNames: ["Sai Ram"], location: [12.9602, 80.0574] },
-            { name: "Vellore Institute of Technology", altNames: ["VIT"], location: [12.8406, 80.1534] },
-            { name: "Vels Institute of Science, Technology & Advanced Studies", altNames: ["Vels"], location: [12.9577, 80.1599] },
-            { name: "Madras Institute of Technology", altNames: ["MIT Chennai", "MIT"], location: [12.9487, 80.1397] },
-            { name: "SRM Easwari Engineering College", altNames: ["Easwari"], location: [13.0322, 80.1794] },
-            { name: "Saveetha University", altNames: ["Saveetha"], location: [13.0285, 80.0157] },
-            { name: "Rajalakshmi Engineering College", altNames: ["Rajalakshmi"], location: [13.0087, 80.0035] },
-            { name: "Chennai Institute of Technology", altNames: ["CIT"], location: [12.9719, 80.0435] },
-            { name: "M.O.P. Vaishnav College for Women", altNames: ["MOP", "Vaishnav"], location: [13.0557, 80.2503] },
-            { name: "Panimalar Engineering College", altNames: ["Panimalar"], location: [13.0492, 80.0754] },
-            { name: "SDNB Vaishnav College for Women", altNames: ["SDNB", "Vaishnav"], location: [12.9562, 80.1460] },
-            { name: "Pachaiyappa's College", altNames: ["Pachaiyappa"], location: [13.0745, 80.2332] },
-            { name: "Hindustan Institute of Technology and Science", altNames: ["HITS", "Hindustan University"], location: [12.9025, 80.2273] },
-            { name: "Meenakshi College for Women", altNames: ["Meenakshi College"], location: [13.0568, 80.2357] },
-            { name: "Meenakshi Sundararajan Engineering College", altNames: ["Meenakshi Sundararajan"], location: [13.0571, 80.2333] },
-            { name: "Jeppiaar Engineering College", altNames: ["Jeppiaar College"], location: [12.8727, 80.2195] },
-            { name: "Dhanalakshmi College of Engineering", altNames: ["Dhanalakshmi Engineering"], location: [13.0286, 80.0342] },
-            { name: "Alpha Arts and Science College", altNames: ["Alpha College"], location: [13.0371, 80.1484] },
-            { name: "KCG College of Technology", altNames: ["KCG Tech"], location: [12.9602, 80.1461] },
-            { name: "Vivekananda College", altNames: ["Vivekananda"], location: [13.0205, 80.2678] }
+            { name: "Anna University", altNames: ["Anna", "Guindy"], location: [13.0131, 80.2364] },
+            { name: "University of Madras", altNames: ["Madras University", "Chepauk"], location: [13.0662, 80.2830] },
+            { name: "Indian Institute Of Technology Madras", altNames: ["IIT Madras", "IIT", "Adyar"], location: [12.9915, 80.2337] },
+            { name: "Loyola College", altNames: ["Loyola", "Nungambakkam"], location: [13.0788, 80.2347] },
+            { name: "Sathyabama Institute of Science and Technology", altNames: ["Sathyabama", "Sholinganallur"], location: [12.8733, 80.2261] },
+            { name: "Madras Christian College", altNames: ["MCC", "Tambaram"], location: [12.9213, 80.1220] },
+            { name: "SRM Institute of Science and Technology", altNames: ["SRM University", "SRM", "Kattankulathur"], location: [13.0461, 80.1761] },
+            { name: "Stella Maris College", altNames: ["Stella Maris", "Cathedral Road"], location: [13.0463, 80.2534] },
+            { name: "Women's Christian College", altNames: ["WCC", "Nungambakkam"], location: [13.0702, 80.2492] },
+            { name: "Sri Sivasubramaniya Nadar College of Engineering", altNames: ["SSN", "Kalavakkam"], location: [12.7519, 80.2033] },
+            { name: "Ethiraj College for Women", altNames: ["Ethiraj", "Egmore"], location: [13.0629, 80.2572] },
+            { name: "Presidency College", altNames: ["Presidency", "Triplicane"], location: [13.0590, 80.2818] },
+            { name: "Sai Ram Engineering College", altNames: ["Sai Ram", "West Tambaram"], location: [12.9602, 80.0574] },
+            { name: "Vellore Institute of Technology", altNames: ["VIT", "Kelambakkam"], location: [12.8406, 80.1534] },
+            { name: "Vels Institute of Science, Technology & Advanced Studies", altNames: ["Vels", "Pallavaram", "VISTAS"], location: [12.9577, 80.1599] },
+            { name: "Madras Institute of Technology", altNames: ["MIT Chennai", "MIT", "Chromepet"], location: [12.9487, 80.1397] },
+            { name: "SRM Easwari Engineering College", altNames: ["Easwari", "Ramapuram"], location: [13.0322, 80.1794] },
+            { name: "Saveetha University", altNames: ["Saveetha", "Thandalam"], location: [13.0285, 80.0157] },
+            { name: "Rajalakshmi Engineering College", altNames: ["Rajalakshmi", "Thandalam"], location: [13.0087, 80.0035] },
+            { name: "Chennai Institute of Technology", altNames: ["CIT", "Kundrathur"], location: [12.9719, 80.0435] },
+            { name: "M.O.P. Vaishnav College for Women", altNames: ["MOP", "Vaishnav", "Nungambakkam"], location: [13.0557, 80.2503] },
+            { name: "Panimalar Engineering College", altNames: ["Panimalar", "Poonamallee"], location: [13.0492, 80.0754] },
+            { name: "SDNB Vaishnav College for Women", altNames: ["SDNB", "Vaishnav", "Chromepet"], location: [12.9562, 80.1460] },
+            { name: "Pachaiyappa's College", altNames: ["Pachaiyappa", "Chetpet"], location: [13.0745, 80.2332] },
+            { name: "Hindustan Institute of Technology and Science", altNames: ["HITS", "Hindustan University", "Padur"], location: [12.9025, 80.2273] },
+            { name: "Meenakshi College for Women", altNames: ["Meenakshi College", "Kodambakkam"], location: [13.0568, 80.2357] },
+            { name: "Meenakshi Sundararajan Engineering College", altNames: ["Meenakshi Sundararajan", "Kodambakkam"], location: [13.0571, 80.2333] },
+            { name: "Jeppiaar Engineering College", altNames: ["Jeppiaar College", "Sholinganallur"], location: [12.8727, 80.2195] },
+            { name: "Dhanalakshmi College of Engineering", altNames: ["Dhanalakshmi Engineering", "Tambaram"], location: [13.0286, 80.0342] },
+            { name: "Alpha Arts and Science College", altNames: ["Alpha College", "Porur"], location: [13.0371, 80.1484] },
+            { name: "KCG College of Technology", altNames: ["KCG Tech", "Karapakkam"], location: [12.9602, 80.1461] },
+            { name: "Vivekananda College", altNames: ["Vivekananda", "Mylapore"], location: [13.0205, 80.2678] },
+            { name: "Madras Medical College", altNames: ["MMC", "Park Town"], location: [13.080298610752116, 80.27234959644314] },
+            { name: "Stanley Medical College", altNames: ["Stanley", "Royapuram"], location: [13.106413982141737, 80.28669308650741] },
+            { name: "Regional Centre for Cancer Research and Treatment,", altNames: ["RCCRT", "Teynampet"], location: [13.01059990183219, 80.24872685767178] },
+            { name: "Government Kilpauk Medical College", altNames: ["GKMC", "Kilpauk"], location: [13.078703243597358, 80.24387937116411] },
+            { name: "Sankara Netralaya Medical Research Foundation", altNames: ["SNMRF", "Nungambakkam"], location: [13.062453901322234, 80.25129224041032] },
+            { name: "Sri Ramachandra Medical College & Research Institute", altNames: ["SRMC", "Porur"], location: [13.045631466041286, 80.1413096003057] },
+            { name: "The Tamilnadu Dr. MGR Medical University", altNames: ["MGR University", "Guindy"], location: [13.010061867940529, 80.21821140000002] },
+            { name: "Sree Balaji Medical College and Hospital", altNames: ["SBMCH", "Chromepet"], location: [12.955274019724946, 80.1377290018513] },
+            { name: "ACS Medical College and Hospital", altNames: ["ACSMCH", "Velappanchavadi"], location: [13.059210399411407, 80.12765741844945] },
+            { name: "Saveetha Medical College and Hospital", altNames: ["SMCH", "Thandalam"], location: [13.024728577554733, 80.01745305948813] },
+            { name: "Sri Muthukumaran Medical College", altNames: ["SMMCH", "Mangadu"], location: [13.018537821065149, 80.1102869957023] },
+            { name: "Tagore Medical College and Hospital", altNames: ["TMCH", "Vandalur"], location: [12.860449442739265, 80.13639725390449] },
+            { name: "Madha Medical College and Hospital", altNames: ["MMCH", "Kundrathur"], location: [13.00439310006124, 80.11224366717802] },
+            { name: "ESIC Medical College and Hospital", altNames: ["ESICMCH", "Faridabad"], location: [28.394528676220535, 77.2937012] },
+            { name: "Government Medical College", altNames: ["GMC", "Faridabad"], location: [28.39480709958038, 77.29370119999997] },
+            { name: "Panimalar Medical College Hospital & Research Institute", altNames: ["PMCHRI", "Poonamallee"], location: [13.056761809441085, 80.0752952288359] },
+            { name: "Faculty of Medicine - Sri Lalithambigai Medical College and Hospital", altNames: ["SLMCH", "Adayalampattu"], location: [13.065830987410086, 80.16067084232819] },
+            { name: "Sri Venkateswaraa Medical College Hospital and Research Institute", altNames: ["SVMC", "Ariyur"], location: [12.472782803740438, 79.75786992675118] },
+            { name: "PSP Medical College Hospital and Research Institute", altNames: ["PSPMCHRI", "Oragadam"], location: [12.840149838563935, 79.914217088359] },
+            { name: "Government Siddha Medical College", altNames: ["GSMC", "Arumbakkam"], location: [13.078823086418588, 80.2181641] },
+            { name: "Government Yoga and Naturopathy Medical College ", altNames: ["GYNMC", "Arumbakkam"], location: [13.075721294297947, 80.21946430199515] },
+            { name: "SRM Medical College Hospital and Research Centre", altNames: ["SRMCHRC", "Kattankulathur"], location: [12.821059234919668, 80.04815174232819] },
+            { name: "Chettinad Hospital and Research Institute", altNames: ["CHRI", "Kelambakkam"], location: [12.796908856898991, 80.21848632168253] },
+            { name: "Vels Institute of Science, Technology, and Advanced Studies (VISTAS)", altNames: ["VISTAS", "Pallavaram"], location: [12.957798507456662, 80.15983474232819] },
+            { name: "Meenakshi Medical College Hospital and Research Institute", altNames: ["MMCHRI", "Kanchipuram"], location: [12.872585117616945, 79.7238984] },
+            { name: "Bhaarath Medical College and Hospital", altNames: ["BMCH", "Selaiyur"], location: [12.908231783118504, 80.1397487] },
+            { name: "SMK Fomra Institute of Technology", altNames: ["SMKFIT", "Kelambakkam"], location: [12.764653750366177, 80.201650264425] },
+            { name: "P.S.B Polytechnic College", altNames: ["PSBPC", "Kelambakkam"], location: [12.762099783908361, 80.20635245843522] },
+            { name: "shiv nadar university", altNames: ["SNU", "Kalavakkam"], location: [12.75270589153218, 80.19191525026976] },
+            { name: "St Joseph's College Of Engineering", altNames: ["ST JOSEPH", "Semmancheri"], location: [12.987663096765363, 79.96884527754888] }
+<!--            { name: "Madras Medical College", altNames: ["MMC"], location: [13.080298610752116, 80.27234959644314] },-->
+<!--            { name: "Stanley Medical College", altNames: ["Stanley"], location: [13.106413982141737, 80.28669308650741] },-->
+<!--            { name: "Regional Centre for Cancer Research and Treatment", altNames: ["RCCRT"], location: [13.01059990183219, 80.24872685767178] },-->
+<!--            { name: "Government Kilpauk Medical College", altNames: ["GKMC"], location: [13.078703243597358, 80.24387937116411] },-->
+<!--            { name: "Sankara Netralaya Medical Research Foundation", altNames: ["SNMRF"], location: [13.062453901322234, 80.25129224041032] },-->
+<!--            { name: "Sri Ramachandra Medical College & Research Institute", altNames: ["SRMC"], location: [13.045631466041286, 80.1413096003057] },-->
+<!--            { name: "The Tamilnadu Dr. MGR Medical University", altNames: ["MGR University"], location: [13.010061867940529, 80.21821140000002] },-->
+<!--            { name: "Sree Balaji Medical College and Hospital", altNames: ["SBMCH"], location: [12.955274019724946, 80.1377290018513] },-->
+<!--            { name: "ACS Medical College and Hospital", altNames: ["ACSMCH"], location: [13.059210399411407, 80.12765741844945] },-->
+<!--            { name: "Saveetha Medical College and Hospital", altNames: ["SMCH"], location: [13.024728577554733, 80.01745305948813] },-->
+<!--            { name: "Sri Muthukumaran Medical College", altNames: ["SMMCH"], location: [13.018537821065149, 80.1102869957023] },-->
+<!--            { name: "Tagore Medical College and Hospital", altNames: ["TMCH"], location: [12.860449442739265, 80.13639725390449] },-->
+<!--            { name: "Madha Medical College and Hospital", altNames: ["MMCH"], location: [13.00439310006124, 80.11224366717802] },-->
+<!--            { name: "ESIC Medical College and Hospital", altNames: ["ESICMCH"], location: [28.394528676220535, 77.2937012] },-->
+<!--            { name: "Government Medical College", altNames: ["GMC"], location: [28.39480709958038, 77.29370119999997] },-->
+<!--            { name: "Panimalar Medical College Hospital & Research Institute", altNames: ["PMCHRI"], location: [13.056761809441085, 80.0752952288359] },-->
+<!--            { name: "Faculty of Medicine - Sri Lalithambigai Medical College and Hospital", altNames: ["SLMCH"], location: [13.065830987410086, 80.16067084232819] },-->
+<!--            { name: "Sri Venkateswaraa Medical College Hospital and Research Institute", altNames: ["SVMC"], location: [12.472782803740438, 79.75786992675118] },-->
+<!--            { name: "PSP Medical College Hospital and Research Institute", altNames: ["PSPMCHRI"], location: [12.840149838563935, 79.914217088359] },-->
+<!--            { name: "Government Siddha Medical College", altNames: ["GSMC"], location: [13.078823086418588, 80.2181641] },-->
+<!--            { name: "Government Yoga and Naturopathy Medical College", altNames: ["GYNMC"], location: [13.075721294297947, 80.21946430199515] },-->
+<!--            { name: "SRM Medical College Hospital and Research Centre", altNames: ["SRMCHRC"], location: [12.821059234919668, 80.04815174232819] },-->
+<!--            { name: "Chettinad Hospital and Research Institute", altNames: ["CHRI"], location: [12.796908856898991, 80.21848632168253] },-->
+<!--            { name: "Meenakshi Medical College Hospital and Research Institute", altNames: ["MMCHRI"], location: [12.872585117616945, 79.7238984] },-->
+<!--            { name: "Bhaarath Medical College and Hospital", altNames: ["BMCH"], location: [12.908231783118504, 80.1397487] },-->
+<!--            { name: "SMK Fomra Institute of Technology", altNames: ["SMKFIT"], location: [12.764653750366177, 80.201650264425] },-->
+<!--            { name: "P.S.B Polytechnic College", altNames: ["PSBPC"], location: [12.762099783908361, 80.20635245843522] },-->
+<!--            { name: "shiv nadar university", altNames: ["SNU"], location: [12.75270589153218, 80.19191525026976] },-->
+<!--            { name: "St Joseph's College Of Engineering", altNames: ["ST JOSEPH"], location: [12.987663096765363, 79.96884527754888] }-->
         ];
 
         function filterColleges() {

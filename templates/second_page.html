@@ -93,29 +93,34 @@
 
         .filters {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
             padding: 1.5rem;
             background: rgba(255, 255, 255, 0.95);
             margin: 0 2rem;
             border-radius: 1rem;
-            flex-wrap: wrap;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(14, 165, 233, 0.1);
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .filter-group {
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            min-width: fit-content;
+            flex-shrink: 0;
         }
 
         .filter-group label {
             color: var(--text-dark);
             font-weight: 500;
             font-size: 0.95rem;
+            white-space: nowrap;
         }
 
         select {
@@ -125,13 +130,14 @@
             border-radius: 0.8rem;
             background: white;
             color: var(--text-dark);
-            min-width: 180px;
+            min-width: 150px;
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230c4a6e'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 1.2em;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         select:focus {
@@ -302,21 +308,312 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
             .filters {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .filter-group {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
+                padding: 1rem;
+                gap: 0.8rem;
             }
 
             select {
-                width: 100%;
+                min-width: 130px;
+                padding: 0.6rem 1.8rem 0.6rem 0.8rem;
             }
+
+            .apply-button {
+                padding: 0.6rem 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 1rem;
+                gap: 0.8rem;
+            }
+
+            .filter-group {
+                min-width: fit-content;
+            }
+
+            select {
+                min-width: 120px;
+                padding: 0.6rem 1.8rem 0.6rem 0.8rem;
+            }
+
+            .apply-button {
+                padding: 0.6rem 1.2rem;
+            }
+        }
+
+        .apply-button {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 0.8rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .apply-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+        }
+
+        .page-button {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 0.5rem;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-button:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .multi-select {
+            position: relative;
+            min-width: 150px;
+        }
+
+        .select-box {
+            padding: 0.8rem 2rem 0.8rem 1rem;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.8rem;
+            background: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .select-box:hover {
+            border-color: var(--primary);
+        }
+
+        .options-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.8rem;
+            padding: 1.5rem;
+            display: none;
+            z-index: 1001;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .options-container.active {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.2s ease;
+            border-radius: 0.5rem;
+            background: var(--bg-light);
+        }
+
+        .option:hover {
+            background: #e2e8f0;
+        }
+
+        .option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .selected-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        /* Overlay styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(2px);
+            display: none;
+            z-index: 1000;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Remove old scrollbar styles */
+        .options-container::-webkit-scrollbar,
+        .options-container::-webkit-scrollbar-track,
+        .options-container::-webkit-scrollbar-thumb,
+        .options-container::-webkit-scrollbar-thumb:hover {
+            display: none;
+        }
+
+        .amenities-select {
+            position: relative;
+            min-width: 150px;
+        }
+
+        .amenities-button {
+            padding: 0.8rem 2rem 0.8rem 1rem;
+            font-size: 0.95rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.8rem;
+            background: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+
+        .amenities-button:hover {
+            border-color: var(--primary);
+        }
+
+        .amenities-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .amenities-button.active i {
+            transform: rotate(180deg);
+        }
+
+        .amenities-grid {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            max-width: 90vw;
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: none;
+            z-index: 1001;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .amenities-grid.active {
+            display: grid;
+        }
+
+        .amenity-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: var(--bg-light);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .amenity-option:hover {
+            background: #e2e8f0;
+        }
+
+        .amenity-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .amenity-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .amenity-option i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .selected-amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .selected-amenity {
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .selected-amenity i {
+            cursor: pointer;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -345,22 +642,30 @@
         </div>
 
         <div class="filter-group">
-            <label for="amenities"><i class="fas fa-list-check"></i> Amenities:</label>
-            <select id="amenities">
+            <label><i class="fas fa-list-check"></i> Amenities:</label>
+            <div class="amenities-select">
+                <div class="amenities-button" onclick="toggleAmenities()">
+                    <span>Select Amenities</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="selected-amenities" id="selectedAmenities"></div>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <label for="gender"><i class="fas fa-venus-mars"></i> Gender:</label>
+            <select id="gender">
                 <option value="all">All</option>
-                <option value="wifi">WiFi</option>
-                <option value="ac">AC</option>
-                <option value="parking">Parking</option>
-                <option value="fridge">Fridge</option>
-                <option value="washing_machine">Washing Machine</option>
-                <option value="oven">Oven</option>
-                <option value="furnished">Furnished</option>
+                <option value="boy">Male</option>
+                <option value="girl">Female</option>
+                <option value="common">Common</option>
             </select>
         </div>
 
         <div class="filter-group">
             <label for="priceRange"><i class="fas fa-indian-rupee-sign"></i> Price Range:</label>
             <select id="priceRange">
+                <option value="all">All Prices</option>
                 <option value="0-5000">₹0 - ₹5,000</option>
                 <option value="5000-10000">₹5,000 - ₹10,000</option>
                 <option value="10000-15000">₹10,000 - ₹15,000</option>
@@ -368,7 +673,7 @@
             </select>
         </div>
 
-        <button onclick="updatePGListings()">
+        <button onclick="updatePGListings()" class="apply-button">
             <i class="fas fa-filter"></i> Apply Filters
         </button>
     </div>
@@ -382,29 +687,163 @@
                     </div>
                 </li>
             </ul>
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons will be added here -->
+            </div>
         </div>
         <div class="map-container">
             <div id="map"></div>
         </div>
     </div>
 
+    <div class="overlay" id="overlay"></div>
+    <div class="amenities-grid" id="amenitiesGrid">
+        <div class="amenity-option">
+            <input type="checkbox" id="wifi" value="wifi">
+            <i class="fas fa-wifi"></i>
+            <label for="wifi">WiFi</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="ac" value="ac">
+            <i class="fas fa-snowflake"></i>
+            <label for="ac">AC</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="parking" value="parking">
+            <i class="fas fa-parking"></i>
+            <label for="parking">Parking</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="fridge" value="fridge">
+            <i class="fas fa-box"></i>
+            <label for="fridge">Fridge</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="washing_machine" value="washing_machine">
+            <i class="fas fa-tshirt"></i>
+            <label for="washing_machine">Washing Machine</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="oven" value="oven">
+            <i class="fas fa-fire"></i>
+            <label for="oven">Oven</label>
+        </div>
+        <div class="amenity-option">
+            <input type="checkbox" id="furnished" value="furnished">
+            <i class="fas fa-couch"></i>
+            <label for="furnished">Furnished</label>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+        // Define Node and MinHeap classes to match backend
+        class Node {
+            constructor(price, bedroom, AC_NON_AC, address, deposit, fridge, oven, washing_machine, furnished, wifi, name, parking, gender, latitude, longitude) {
+                this.name = name;
+                this.price = price;
+                this.AC_NON_AC = AC_NON_AC;
+                this.distance = null;
+                this.bedroom = bedroom;
+                this.address = address;
+                this.deposit = deposit;
+                this.fridge = fridge;
+                this.oven = oven;
+                this.washing_machine = washing_machine;
+                this.furnished = furnished;
+                this.wifi = wifi;
+                this.parking = parking;
+                this.gender = gender;
+                this.latitude = latitude;
+                this.longitude = longitude;
+            }
+
+            static calculate_distance(lat1, lon1, lat2, lon2) {
+                const R = 6371; // Earth's radius in km
+                const dlat = (lat2 - lat1) * Math.PI / 180;
+                const dlon = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(dlat/2) * Math.sin(dlat/2) +
+                         Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                         Math.sin(dlon/2) * Math.sin(dlon/2);
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                return R * c;
+            }
+        }
+
+        class MinHeap {
+            constructor() {
+                this.heap = [];
+            }
+
+            push(node) {
+                this.heap.push(node);
+                this.heap.sort((a, b) => {
+                    if (a.distance === b.distance) {
+                        return a.price - b.price;
+                    }
+                    return a.distance - b.distance;
+                });
+            }
+
+            pop() {
+                return this.heap.shift();
+            }
+
+            is_empty() {
+                return this.heap.length === 0;
+            }
+        }
+
         let allPGs = [];
         let map;
         let markers = [];
         let collegeMarker = null;
         let collegeLat, collegeLon;
+        let minHeap = new MinHeap();
+        let currentPage = 1;
+        const itemsPerPage = 15;
+        let selectedAmenities = new Set();
 
         function fetchPGListings() {
             fetch('http://127.0.0.1:5000/get_pg_listings')
             .then(response => response.json())
             .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
                 allPGs = data.listings;
                 collegeLat = data.college_lat;
                 collegeLon = data.college_lon;
-                document.getElementById("collegeName").textContent = data.college_name || "Unknown";
-                document.getElementById("priceRange").value = "0-5000";
+                document.getElementById("collegeName").textContent = data.college_name;
+                document.getElementById("priceRange").value = "all";
+                
+                // Debug: Log all unique gender values
+                const uniqueGenders = new Set(allPGs.map(pg => pg.gender.toLowerCase()));
+                console.log("Unique gender values in database:", Array.from(uniqueGenders));
+                
+                // Create MinHeap for distance-based sorting
+                allPGs.forEach(pg => {
+                    const node = new Node(
+                        pg.price,
+                        pg.bedroom,
+                        pg.AC_NON_AC,
+                        pg.address,
+                        pg.deposit,
+                        pg.fridge,
+                        pg.oven,
+                        pg.washing_machine,
+                        pg.furnished,
+                        pg.wifi,
+                        pg.name,
+                        pg.parking,
+                        pg.gender,
+                        pg.latitude,
+                        pg.longitude
+                    );
+                    node.distance = pg.distance;
+                    minHeap.push(node);
+                });
+                
                 updatePGListings();
             })
             .catch(error => {
@@ -414,60 +853,130 @@
                         <div class="pg-name">
                             <i class="fas fa-exclamation-circle"></i> Error loading PG listings
                         </div>
-                        <div class="pg-detail">${error}</div>
+                        <div class="pg-detail">${error.message || error}</div>
                     </li>`;
             });
         }
 
         function updatePGListings() {
             let sortOption = document.getElementById("sort").value;
-            let selectedAmenity = document.getElementById("amenities").value;
             let priceRange = document.getElementById("priceRange").value;
+            let selectedGender = document.getElementById("gender").value;
 
             let [minPrice, maxPrice] = getPriceRange(priceRange);
 
             let filteredPGs = allPGs.filter(pg => {
-                return (
-                    (priceRange === "15000+" ? pg.price >= 15000 : (pg.price >= minPrice && pg.price <= maxPrice)) &&
-                    (selectedAmenity === "all" || pg.amenities.toLowerCase().includes(selectedAmenity.toLowerCase()))
-                );
+                // Price filter
+                const priceMatch = priceRange === "all" || 
+                    (priceRange === "15000+" ? pg.price >= 15000 : 
+                     (pg.price >= minPrice && pg.price <= maxPrice));
+                
+                // Amenity filter
+                const amenityMatch = selectedAmenities.size === 0 || 
+                    Array.from(selectedAmenities).every(amenity => {
+                        // Normalize both the amenity and the PG's amenities
+                        const normalizedAmenity = amenity.toLowerCase().replace(/_/g, ' ');
+                        const normalizedPgAmenities = pg.amenities.toLowerCase();
+                        return normalizedPgAmenities.includes(normalizedAmenity);
+                    });
+                
+                // Gender filter
+                let genderMatch = true;
+                if (selectedGender !== "all") {
+                    const pgGender = pg.gender.toLowerCase();
+                    switch(selectedGender) {
+                        case "boy":
+                            genderMatch = pgGender === "boy" || 
+                                        pgGender === "man" || 
+                                        pgGender === "male" || 
+                                        pgGender === "boys";
+                            break;
+                        case "girl":
+                            genderMatch = pgGender === "girl" || 
+                                        pgGender === "woman" || 
+                                        pgGender === "female";
+                            break;
+                        case "common":
+                            genderMatch = pgGender === "common" || 
+                                        pgGender === "any" || 
+                                        pgGender === "unisex";
+                            break;
+                    }
+                }
+                
+                return priceMatch && amenityMatch && genderMatch;
             });
 
-            filteredPGs.sort((a, b) => {
-                switch(sortOption) {
-                    case "distanceLow": return a.distance - b.distance;
-                    case "distanceHigh": return b.distance - a.distance;
-                    case "priceLow": return a.price - b.price;
-                    case "priceHigh": return b.price - a.price;
-                    default: return 0;
+            // Then apply sorting
+            if (sortOption === "distanceLow") {
+                // Use MinHeap for distance-based sorting
+                const tempHeap = new MinHeap();
+                filteredPGs.forEach(pg => {
+                    const node = new Node(
+                        pg.price,
+                        pg.bedroom,
+                        pg.AC_NON_AC,
+                        pg.address,
+                        pg.deposit,
+                        pg.fridge,
+                        pg.oven,
+                        pg.washing_machine,
+                        pg.furnished,
+                        pg.wifi,
+                        pg.name,
+                        pg.parking,
+                        pg.gender,
+                        pg.latitude,
+                        pg.longitude
+                    );
+                    node.distance = pg.distance;
+                    tempHeap.push(node);
+                });
+
+                filteredPGs = [];
+                while (!tempHeap.is_empty()) {
+                    const node = tempHeap.pop();
+                    const pg = allPGs.find(p => p.name === node.name);
+                    if (pg) filteredPGs.push(pg);
                 }
-            });
+            } else {
+                filteredPGs.sort((a, b) => {
+                    switch(sortOption) {
+                        case "distanceHigh": return b.distance - a.distance;
+                        case "priceLow": return a.price - b.price;
+                        case "priceHigh": return b.price - a.price;
+                        default: return 0;
+                    }
+                });
+            }
 
             displayListings(filteredPGs);
             updateMap(filteredPGs);
         }
 
         function formatAmenities(amenitiesStr) {
-            return amenitiesStr.split(', ').map(amenity => 
+            return amenitiesStr.split(', ').map(amenity =>
                 `<span class="amenity-tag"><i class="fas fa-${getAmenityIcon(amenity)}"></i> ${amenity}</span>`
             ).join('');
         }
 
         function getAmenityIcon(amenity) {
             const icons = {
-                'WiFi': 'wifi',
-                'AC': 'snowflake',
-                'Parking': 'parking',
-                'Fridge': 'box',
-                'Washing Machine': 'tshirt',
-                'Oven': 'fire',
-                'Furnished': 'couch'
+                'wifi': 'wifi',
+                'ac': 'snowflake',
+                'parking': 'parking',
+                'fridge': 'box',
+                'washing_machine': 'tshirt',
+                'oven': 'fire',
+                'furnished': 'couch'
             };
             return icons[amenity] || 'check';
         }
 
         function displayListings(pgs) {
             let pgList = document.getElementById("pgList");
+            let pagination = document.getElementById("pagination");
+            
             if (pgs.length === 0) {
                 pgList.innerHTML = `
                     <li class="pg-item">
@@ -476,10 +985,18 @@
                         </div>
                         <div class="pg-detail">Try adjusting your filters</div>
                     </li>`;
+                pagination.innerHTML = '';
                 return;
             }
 
-            pgList.innerHTML = pgs.map(pg => `
+            // Calculate pagination
+            const totalPages = Math.ceil(pgs.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const currentPGs = pgs.slice(startIndex, endIndex);
+
+            // Display current page's PGs
+            pgList.innerHTML = currentPGs.map(pg => `
                 <li class="pg-item" onclick="window.location.href='/third_page?id=${encodeURIComponent(pg.name)}'">
                     <div class="pg-name">
                         <i class="fas fa-building"></i> ${pg.name}
@@ -489,7 +1006,7 @@
                             <i class="fas fa-indian-rupee-sign"></i> ₹${pg.price.toLocaleString()}
                         </div>
                         <div class="pg-detail">
-                            <i class="fas fa-location-dot"></i> ${pg.distance} km
+                            <i class="fas fa-location-dot"></i> ${pg.distance.toFixed(2)} km
                         </div>
                     </div>
                     <div class="pg-amenities">
@@ -497,10 +1014,46 @@
                     </div>
                 </li>
             `).join('');
+
+            // Create pagination buttons
+            let paginationHTML = '';
+            if (totalPages > 1) {
+                paginationHTML += `
+                    <button class="page-button ${currentPage === 1 ? 'disabled' : ''}" 
+                            onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>`;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        paginationHTML += `
+                            <button class="page-button ${i === currentPage ? 'active' : ''}" 
+                                    onclick="changePage(${i})">
+                                ${i}
+                            </button>`;
+                    } else if (i === currentPage - 2 || i === currentPage + 2) {
+                        paginationHTML += `<span class="page-button disabled">...</span>`;
+                    }
+                }
+
+                paginationHTML += `
+                    <button class="page-button ${currentPage === totalPages ? 'disabled' : ''}" 
+                            onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>`;
+            }
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            updatePGListings();
         }
 
         function getPriceRange(range) {
             switch(range) {
+                case "all": return [0, Infinity];
                 case "0-5000": return [0, 5000];
                 case "5000-10000": return [5000, 10000];
                 case "10000-15000": return [10000, 15000];
@@ -535,7 +1088,7 @@
                     .bindPopup(`
                         <b>${pg.name}</b><br>
                         <i class="fas fa-indian-rupee-sign"></i> ₹${pg.price}<br>
-                        <i class="fas fa-location-dot"></i> ${pg.distance} km
+                        <i class="fas fa-location-dot"></i> ${pg.distance.toFixed(2)} km
                     `);
                 markers.push(marker);
             });
@@ -544,7 +1097,53 @@
             map.fitBounds(bounds);
         }
 
+        function toggleAmenities() {
+            const grid = document.getElementById('amenitiesGrid');
+            const button = document.querySelector('.amenities-button');
+            const overlay = document.getElementById('overlay');
+            
+            grid.classList.toggle('active');
+            button.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function updateSelectedAmenities() {
+            const container = document.getElementById('selectedAmenities');
+            container.innerHTML = Array.from(selectedAmenities).map(amenity => {
+                console.log("Selected amenity:", amenity); // Debug log
+                return `
+                    <div class="selected-amenity">
+                        <i class="fas fa-${getAmenityIcon(amenity)}"></i>
+                        ${amenity.charAt(0).toUpperCase() + amenity.slice(1).replace('_', ' ')}
+                        <i class="fas fa-times" onclick="removeAmenity('${amenity}')"></i>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function removeAmenity(amenity) {
+            selectedAmenities.delete(amenity);
+            document.getElementById(amenity).checked = false;
+            updateSelectedAmenities();
+        }
+
+        document.querySelectorAll('.amenity-option input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    selectedAmenities.add(e.target.value);
+                    console.log("Added amenity:", e.target.value); // Debug log
+                } else {
+                    selectedAmenities.delete(e.target.value);
+                    console.log("Removed amenity:", e.target.value); // Debug log
+                }
+                updateSelectedAmenities();
+            });
+        });
+
+        document.getElementById('overlay').addEventListener('click', toggleAmenities);
+
         window.onload = fetchPGListings;
     </script>
 </body>
 </html>
+

@@ -22,12 +22,12 @@ This project is a hostel booking platform tailored for college students in Chenn
 
 ## ⚙️ Tech Stack
 
-| Layer       | Technology          |
-|-------------|---------------------|
-| Backend     | 🐍 Flask            |
-| Database    | 🐘 PostgreSQL       |
-| Frontend    | 🌐 HTML, CSS        |
-| Deployment  | 🚀 Render           |
+                | Layer       | Technology          |
+                |-------------|---------------------|
+                | Backend     | 🐍 Flask            |
+                | Database    | 🐘 PostgreSQL       |
+                | Frontend    | 🌐 HTML, CSS        |
+                | Deployment  | 🚀 Render           |
 
 ---
 

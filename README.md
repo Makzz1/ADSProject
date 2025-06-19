@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/e8aa37af-e3e2-4734-a79e-a5dcc9f95484)<h1 align="center">🏠 Hostel Accommodation Portal - Chennai Students</h1>
+<h1 align="center">🏠 Hostel Accommodation Portal - Chennai Students</h1>
 
 <p align="center">
   A student-friendly web app to search and manage hostel stays in Chennai.

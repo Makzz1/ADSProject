@@ -805,7 +805,7 @@
         let selectedAmenities = new Set();
 
         function fetchPGListings() {
-            fetch('http://127.0.0.1:5000/get_pg_listings')
+            fetch('/get_pg_listings')
             .then(response => response.json())
             .then(data => {
                 if (data.error) {

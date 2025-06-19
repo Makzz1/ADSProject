@@ -1,4 +1,0 @@
-{
-  "builds": [{"src": "preference_flask.py","use": "@vercel/python"}],
-  "routes": [{"src": "/(.*)", "dest": "preference_flask.py"}]
-}
